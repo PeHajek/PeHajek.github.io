@@ -1497,14 +1497,13 @@
       </div>
       <div>
         <div class="footer-col-title">Kontakt</div>
-        <div class="footer-contact-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          <span>petr.hajek@example.cz<br><em style="font-size:.78rem;opacity:.6;">(ukázkový e-mail)</em></span>
-        </div>
-        <div class="footer-contact-row">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/></svg>
-          <span>+420 777 000 000<br><em style="font-size:.78rem;opacity:.6;">(ukázkové číslo)</em></span>
-        </div>
+        <p style="font-size:.875rem;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:16px;">
+          Nejlepší způsob, jak mě kontaktovat, je přes objednávkový formulář. Ozvu se vám do 24 hodin.
+        </p>
+        <a href="#objednat" class="btn btn-primary" style="font-size:.85rem;padding:11px 20px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          Napsat poptávku
+        </a>
       </div>
     </div>
     <div class="footer-divider"></div>
@@ -1543,7 +1542,7 @@
   // Form submit – odešle data přes Formsubmit a zobrazí potvrzení
   function handleSubmit(e) {
     // Nastav _next na aktuální URL (přesměrování zpět na stránku)
-    document.getElementById('formNext').value = window.location.href.split('#')[0] + '#objednat';
+    document.getElementById('formNext').value = window.location.href.split('#')[0];
     // Formulář se standardně odešle (POST), ale nejdřív zobrazíme potvrzení
     document.getElementById('formContent').style.display = 'none';
     document.getElementById('formSuccess').classList.add('show');
