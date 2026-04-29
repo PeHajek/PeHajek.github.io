@@ -808,7 +808,94 @@
       line-height: 1.7;
       flex: 1;
     }
+    .blog-card-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: .82rem;
+      font-weight: 700;
+      color: var(--gold-dark);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      letter-spacing: .02em;
+    }
+    .blog-card-read:hover { color: var(--navy); }
+    .blog-card-read svg { transition: transform .2s; }
+    .blog-card-read:hover svg { transform: translateX(4px); }
     @media (max-width: 900px) { .blog-grid { grid-template-columns: 1fr; } }
+
+    /* ===================== BLOG MODAL ===================== */
+    .blog-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(13,31,60,.7);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 16px;
+      overflow-y: auto;
+    }
+    .blog-modal-overlay.open { display: flex; }
+    .blog-modal {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      max-width: 720px;
+      width: 100%;
+      margin: auto;
+      padding: 48px;
+      position: relative;
+      animation: modalIn .25s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .blog-modal-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: var(--bg-alt);
+      border: none;
+      border-radius: 50%;
+      width: 36px; height: 36px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+      color: var(--text-mid);
+      transition: background var(--transition);
+    }
+    .blog-modal-close:hover { background: var(--border); }
+    .blog-modal-emoji { font-size: 2.4rem; margin-bottom: 16px; }
+    .blog-modal-meta {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px;
+    }
+    .blog-modal-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.3;
+      margin-bottom: 24px;
+    }
+    .blog-modal-body { font-size: .95rem; color: var(--text-mid); line-height: 1.8; }
+    .blog-modal-body h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 24px 0 8px;
+    }
+    .blog-modal-body p { margin-bottom: 14px; }
+    .blog-modal-body ul {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+    .blog-modal-body ul li { margin-bottom: 6px; }
+    @media (max-width: 600px) { .blog-modal { padding: 28px 20px; } .blog-modal-title { font-size: 1.3rem; } }
 
     /* ===================== ORDER FORM ===================== */
     #objednat {
@@ -1438,7 +1525,7 @@
     </div>
     <div class="blog-grid">
 
-      <article class="blog-card">
+      <article class="blog-card" onclick="openArticle('cermat')">
         <div class="blog-card-emoji">📐</div>
         <div class="blog-card-body">
           <div class="blog-card-meta">
@@ -1447,10 +1534,11 @@
           </div>
           <h3 class="blog-card-title">Jak se připravit na Cermat za 3 měsíce</h3>
           <p class="blog-card-perex">Tři měsíce před přijímačkami jsou víc než dost — pokud víte, co trénovat. Ukážu vám, jak sestavit plán, který funguje i pro žáky, kteří matematiku nemilují.</p>
+          <button class="blog-card-read">Číst článek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
       </article>
 
-      <article class="blog-card">
+      <article class="blog-card" onclick="openArticle('zlomky')">
         <div class="blog-card-emoji">🧮</div>
         <div class="blog-card-body">
           <div class="blog-card-meta">
@@ -1459,10 +1547,11 @@
           </div>
           <h3 class="blog-card-title">5 chyb, které dělají žáci při počítání zlomků</h3>
           <p class="blog-card-perex">Zlomky trápí skoro každého žáka základní školy. Přitom stačí porozumět pár základním pravidlům a většina chyb zmizí. Podívejte se, kde se nejčastěji chybuje.</p>
+          <button class="blog-card-read">Číst článek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
       </article>
 
-      <article class="blog-card">
+      <article class="blog-card" onclick="openArticle('online')">
         <div class="blog-card-emoji">💡</div>
         <div class="blog-card-body">
           <div class="blog-card-meta">
@@ -1471,6 +1560,33 @@
           </div>
           <h3 class="blog-card-title">Online doučování — jak na to, aby to dávalo smysl</h3>
           <p class="blog-card-perex">Online hodiny mají své výhody, ale také nástrahy. Jak si správně nastavit pracovní prostor, jaké pomůcky použít a jak z každé hodiny vytěžit maximum.</p>
+          <button class="blog-card-read">Číst článek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </article>
+
+      <article class="blog-card" onclick="openArticle('integral')">
+        <div class="blog-card-emoji">∫</div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-card-tag">Vysoká škola</span>
+            <span class="blog-card-date">10. ledna 2025</span>
+          </div>
+          <h3 class="blog-card-title">Integrální počet: od základů k výpočtu plochy</h3>
+          <p class="blog-card-perex">Integrál nemusí být strašák. Vysvětlím, co integrál vlastně znamená, jak funguje Newton-Leibnizova věta a jak spočítat plochu pod křivkou krok za krokem.</p>
+          <button class="blog-card-read">Číst článek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </article>
+
+      <article class="blog-card" onclick="openArticle('matice')">
+        <div class="blog-card-emoji">🔢</div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-card-tag">Vysoká škola</span>
+            <span class="blog-card-date">5. ledna 2025</span>
+          </div>
+          <h3 class="blog-card-title">Matice: co to je, jak se počítají a kde se používají</h3>
+          <p class="blog-card-perex">Matice jsou základem lineární algebry a zároveň jedním z témat, kde studenti nejvíce tápou. Ukážu vám, jak na součin matic, determinant i soustavu rovnic.</p>
+          <button class="blog-card-read">Číst článek <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
       </article>
 
@@ -1656,6 +1772,206 @@
     el.style.transition = 'opacity .5s ease, transform .5s ease';
     observer.observe(el);
   });
+</script>
+
+<!-- ==================== BLOG MODAL ==================== -->
+<div class="blog-modal-overlay" id="blogModalOverlay" onclick="closeBlogModal(event)">
+  <div class="blog-modal" id="blogModal">
+    <button class="blog-modal-close" onclick="closeBlogModal(null)" aria-label="Zavřít">✕</button>
+    <div id="blogModalContent"></div>
+  </div>
+</div>
+
+<script>
+const articles = {
+  cermat: {
+    emoji: '📐',
+    tag: 'Přijímačky',
+    date: '15. dubna 2025',
+    title: 'Jak se připravit na Cermat za 3 měsíce',
+    body: `
+      <p>Tři měsíce před přijímačkami jsou víc než dost — pokud víte, co trénovat. Spousta žáků dělá chybu v tom, že se učí "všechno najednou" a pak nestíhají. S jasným plánem to jde úplně jinak.</p>
+
+      <h4>1. Zjistěte, co vás trápí nejvíc</h4>
+      <p>Začněte diagnostickým testem — ideálně starým Cermat testem z předchozích let. Projděte si výsledky a označte si témata, kde ztrácíte nejvíce bodů. Tam je třeba začít.</p>
+
+      <h4>2. Rozložte přípravu do tří fází</h4>
+      <ul>
+        <li><strong>1. měsíc:</strong> Procvičujte slabá místa — zlomky, rovnice, procenta, slovní úlohy.</li>
+        <li><strong>2. měsíc:</strong> Přidejte geometrii a konstrukční úlohy. Začněte dělat celé testy na čas.</li>
+        <li><strong>3. měsíc:</strong> Opakujte celé testy, analyzujte chyby, zdokonalujte rychlost.</li>
+      </ul>
+
+      <h4>3. Trénujte v cermatovém formátu</h4>
+      <p>Cermat testy mají specifický styl zadání. Není stačí "umět matematiku" — musíte se naučit číst zadání rychle a efektivně. Proto je klíčové dělat co nejvíce reálných testů, ne jen izolovaná cvičení.</p>
+
+      <h4>4. Časový management je polovina úspěchu</h4>
+      <p>Test trvá 70 minut a má 16 úloh. Neprojdete-li zadání do 2 minut, přeskočte ho a vraťte se. Naučte se rozpoznat úlohy, které vyřešíte snadno, a neztrácejte čas tam, kde tápete.</p>
+
+      <h4>Kdy je doučování nejužitečnější?</h4>
+      <p>Pokud si nejste jistí, kde přesně ztrácíte body, nebo pokud vám domácí příprava nejde — doučování vám ušetří spoustu času. Spolu s žákem vždy projdeme test, identifikujeme slabá místa a nastavíme přesný plán.</p>
+    `
+  },
+  zlomky: {
+    emoji: '🧮',
+    tag: 'Studijní tipy',
+    date: '2. března 2025',
+    title: '5 chyb, které dělají žáci při počítání zlomků',
+    body: `
+      <p>Zlomky jsou jedním z nejčastějších zdrojů chyb na základní škole i u přijímacích zkoušek. Přitom jde téměř vždy o ty samé omyly — stačí je znát a vyhnout se jim.</p>
+
+      <h4>Chyba č. 1: Sčítání jmenovatelů</h4>
+      <p>Klasika. Žák napíše ½ + ⅓ = 2/5. Sčítat nebo odčítat lze pouze zlomky se <strong>stejným jmenovatelem</strong>. Nejprve je nutné převést oba zlomky na společného jmenovatele.</p>
+
+      <h4>Chyba č. 2: Krácení před sečtením</h4>
+      <p>Zkracovat lze pouze v rámci jednoho zlomku (čitatel a jmenovatel), nikdy mezi dvěma zlomky ve součtu. Toto pravidlo mnoho žáků přeskakuje a krátí "co se hodí".</p>
+
+      <h4>Chyba č. 3: Zapomenutí na převrácení při dělení</h4>
+      <p>Dělení zlomkem = násobení převráceným zlomkem. ½ ÷ ¼ není ½ × ¼ = ⅛, ale ½ × <span style="font-size:.72em; white-space:nowrap"><sup>4</sup>⁄<sub>1</sub></span> = 2. Tento krok žáci zapomínají překvapivě často.</p>
+
+      <h4>Chyba č. 4: Špatný společný jmenovatel</h4>
+      <p>Žáci někdy najdou společného jmenovatele, ale zapomenou přepočítat čitatele odpovídajícím způsobem. Pokud vynásobím jmenovatel číslem 3, musím stejně vynásobit i čitatele.</p>
+
+      <h4>Chyba č. 5: Nekrácení výsledku</h4>
+      <p>Výsledek 4/8 je správně, ale v nevykráceném tvaru. Na Cermat testech to může stát body, pokud zadání požaduje výsledek v základním tvaru. Vždy překontrolujte, zda jde výsledek zkrátit.</p>
+
+      <h4>Jak tyto chyby odstranit?</h4>
+      <p>Opakování a uvědomělé procvičování. Doporučuji si u každé úlohy nejprve napsat postup slovně, pak teprve počítat. Chyby ve zlomcích jsou skoro vždy chybami v postupu, ne v počítání samotném.</p>
+    `
+  },
+  integral: {
+    emoji: '∫',
+    tag: 'Vysoká škola',
+    date: '10. ledna 2025',
+    title: 'Integrální počet: od základů k výpočtu plochy',
+    body: `
+      <p>Integrál je jedním z nejdůležitějších nástrojů vyšší matematiky — a zároveň jedním z nejobávanějších. Přitom základní myšlenka je překvapivě intuitivní.</p>
+
+      <h4>Co je to vlastně integrál?</h4>
+      <p>Představte si, že chcete zjistit plochu pod křivkou f(x) na intervalu ⟨a, b⟩. Nejjednodušší přiblížení: nakreslete pod křivku obdélníky a sečtěte jejich plochy. Čím více obdélníků (čím jsou tenčí), tím přesnější výsledek. Určitý integrál je limitou tohoto součtu — přesná plocha pod křivkou.</p>
+
+      <h4>Neurčitý vs. určitý integrál</h4>
+      <p><strong>Neurčitý integrál</strong> ∫f(x)dx hledá funkci F(x), jejíž derivace je f(x). Výsledkem je funkce + konstanta C.<br>
+      <strong>Určitý integrál</strong> ∫<sub>a</sub><sup>b</sup>f(x)dx dává konkrétní číslo — plochu pod křivkou na daném intervalu.</p>
+
+      <h4>Newton-Leibnizova věta</h4>
+      <p>Klíčový vztah mezi derivací a integrálem: pokud F'(x) = f(x), pak platí:</p>
+      <p style="text-align:center; font-size:1.05em; font-weight:600; color:var(--navy);">∫<sub>a</sub><sup>b</sup> f(x) dx = F(b) − F(a)</p>
+      <p>Stačí tedy najít primitivní funkci F, dosadit meze a odečíst. Žádné součty obdélníků.</p>
+
+      <h4>Příklad krok za krokem</h4>
+      <p>Spočítejme plochu pod křivkou f(x) = x² na intervalu ⟨0, 3⟩:</p>
+      <ul>
+        <li>Primitivní funkce: F(x) = x³/3</li>
+        <li>Dosadíme: F(3) − F(0) = 27/3 − 0 = <strong>9</strong></li>
+      </ul>
+      <p>Plocha pod parabolou x² od 0 do 3 je tedy 9 čtverečních jednotek.</p>
+
+      <h4>Nejčastější základní vzorce</h4>
+      <ul>
+        <li>∫ xⁿ dx = xⁿ⁺¹/(n+1) + C &nbsp;(pro n ≠ −1)</li>
+        <li>∫ eˣ dx = eˣ + C</li>
+        <li>∫ sin x dx = −cos x + C</li>
+        <li>∫ cos x dx = sin x + C</li>
+        <li>∫ 1/x dx = ln|x| + C</li>
+      </ul>
+
+      <h4>Kdy vám mohu pomoci?</h4>
+      <p>Integrální počet je součástí prvního ročníku na většině technických, ekonomických i přírodovědných fakult. Pokud tápete u metody per partes, substituce nebo nevíte, jak přistoupit k nevlastním integrálům — rád vám to vysvětlím krok za krokem.</p>
+    `
+  },
+  matice: {
+    emoji: '🔢',
+    tag: 'Vysoká škola',
+    date: '5. ledna 2025',
+    title: 'Matice: co to je, jak se počítají a kde se používají',
+    body: `
+      <p>Matice jsou základním stavebním kamenem lineární algebry. Potkáte je v prvním ročníku na technických i ekonomických školách — a pokud jim nerozumíte, zbytek algebry bude těžký.</p>
+
+      <h4>Co je matice?</h4>
+      <p>Matice je obdélníkové pole čísel uspořádaných do řádků a sloupců. Matice A typu m×n má m řádků a n sloupců. Jednotlivé prvky zapisujeme jako a<sub>ij</sub>, kde i je řádek a j je sloupec.</p>
+
+      <h4>Sčítání a násobení skalárem</h4>
+      <p>Matice se sčítají po prvcích — musí mít stejný typ. Násobení skalárem (číslem) jednoduše vynásobí každý prvek. Tyto operace jsou intuitivní.</p>
+
+      <h4>Součin matic — největší záludnost</h4>
+      <p>Součin A·B existuje pouze tehdy, když počet sloupců A = počtu řádků B. Výsledný prvek c<sub>ij</sub> je skalárním součinem i-tého řádku A a j-tého sloupce B.</p>
+      <p><strong>Pozor:</strong> A·B ≠ B·A — násobení matic obecně není komutativní!</p>
+
+      <h4>Determinant</h4>
+      <p>Determinant je číslo přiřazené čtvercové matici. Pro matici 2×2:</p>
+      <p style="text-align:center; font-size:1.05em; font-weight:600; color:var(--navy);">det(A) = a·d − b·c</p>
+      <p>Pro větší matice se používá rozvoj podle řádku (Laplaceův rozvoj). Determinant = 0 znamená, že matice je singulární (není invertibilní).</p>
+
+      <h4>Inverzní matice</h4>
+      <p>Inverzní matice A⁻¹ splňuje A·A⁻¹ = I (jednotková matice). Existuje právě tehdy, když det(A) ≠ 0. Nejčastěji se počítá Gaussovou eliminací nebo adjungovanou maticí.</p>
+
+      <h4>Soustava lineárních rovnic</h4>
+      <p>Každou soustavu rovnic lze zapsat jako A·x = b, kde A je matice koeficientů, x vektor neznámých a b vektor pravých stran. Řešíme:</p>
+      <ul>
+        <li><strong>Gaussovou eliminací</strong> — nejuniverzálnější metoda</li>
+        <li><strong>Cramerovým pravidlem</strong> — pro malé soustavy s det(A) ≠ 0</li>
+        <li><strong>Inverzní maticí</strong> — x = A⁻¹·b (pokud A⁻¹ existuje)</li>
+      </ul>
+
+      <h4>Kde se matice používají?</h4>
+      <p>Matice jsou všude — v počítačové grafice (transformace 3D objektů), strojovém učení (neuronové sítě), ekonomii (input-output modely) i fyzice. Porozumění maticím otevírá dveře k velké části moderní matematiky.</p>
+    `
+  },
+  online: {
+    emoji: '💡',
+    tag: 'Online výuka',
+    date: '18. února 2025',
+    title: 'Online doučování — jak na to, aby to dávalo smysl',
+    body: `
+      <p>Online výuka má pověst "horší náhražky" za osobní setkání. Ve skutečnosti může být stejně efektivní — nebo i efektivnější — pokud je správně nastavená. Záleží na přístupu.</p>
+
+      <h4>Pracovní prostor</h4>
+      <p>Ideální je pevné místo bez rušivých elementů — vypnutý telefon, tiché prostředí, dostatek světla. Žák by měl mít před sebou papír a tužku, ne jen klávesnici. Psaní rukou při matematice nelze nahradit.</p>
+
+      <h4>Potřebné vybavení</h4>
+      <ul>
+        <li><strong>Dobrá kamera a mikrofon</strong> — základ komunikace. Vestavěná kamera v laptopu většinou stačí.</li>
+        <li><strong>Sdílení obrazovky</strong> — umožní lektorovi sledovat postup v reálném čase.</li>
+        <li><strong>Digitální tabule nebo tablet</strong> — pro psaní matematiky online. Doporučuji Excalidraw nebo Google Jamboard, které jsou zdarma.</li>
+      </ul>
+
+      <h4>Jak z hodiny vytěžit maximum</h4>
+      <p>Před hodinou: připravte si konkrétní otázky nebo příklady, kde jste se zasekli. "Nevím, co nevím" je nejhorší stav pro efektivní výuku.</p>
+      <p>Během hodiny: nebojte se ptát hned, jakmile něčemu nerozumíte. Online výuka to ještě více vyžaduje než osobní setkání — lektor nevidí výraz ve tváři, musíte promluvit.</p>
+      <p>Po hodině: projděte si poznámky do 24 hodin a zkuste si příklady zopakovat sami. Bez opakování se většina látky vytratí do týdne.</p>
+
+      <h4>Co funguje v mých online hodinách</h4>
+      <p>Každou hodinu stavím na konkrétních příkladech — ne na teorii. Žák počítá, já sleduji postup a hned zachytím, kde a proč dochází k chybám. Online formát mi umožňuje pracovat se studenty z celé ČR, bez dojíždění a bez ztráty času.</p>
+    `
+  }
+};
+
+function openArticle(id) {
+  const a = articles[id];
+  if (!a) return;
+  document.getElementById('blogModalContent').innerHTML = `
+    <div class="blog-modal-emoji">${a.emoji}</div>
+    <div class="blog-modal-meta">
+      <span class="blog-card-tag">${a.tag}</span>
+      <span class="blog-card-date">${a.date}</span>
+    </div>
+    <h2 class="blog-modal-title">${a.title}</h2>
+    <div class="blog-modal-body">${a.body}</div>
+  `;
+  document.getElementById('blogModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBlogModal(e) {
+  if (e && e.target !== document.getElementById('blogModalOverlay')) return;
+  document.getElementById('blogModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeBlogModal(null);
+});
 </script>
 </body>
 </html>
