@@ -755,6 +755,61 @@
     .review-name { font-size: .9rem; font-weight: 700; color: var(--navy); }
     .review-context { font-size: .78rem; color: var(--text-light); }
 
+    /* ===================== BLOG ===================== */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .blog-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: box-shadow var(--transition), transform var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .blog-card:hover { box-shadow: var(--shadow-md); transform: translateY(-4px); }
+    .blog-card-emoji {
+      background: linear-gradient(135deg, #e8edf7 0%, #dce4f5 100%);
+      padding: 32px;
+      font-size: 2.8rem;
+      text-align: center;
+    }
+    .blog-card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+    .blog-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .blog-card-tag {
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      background: rgba(201,168,76,.12);
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+    .blog-card-date { font-size: .78rem; color: var(--text-light); }
+    .blog-card-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .blog-card-perex {
+      font-size: .88rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      flex: 1;
+    }
+    @media (max-width: 900px) { .blog-grid { grid-template-columns: 1fr; } }
+
     /* ===================== ORDER FORM ===================== */
     #objednat {
       background: linear-gradient(145deg, var(--navy) 0%, var(--navy-light) 100%);
@@ -969,6 +1024,7 @@
         <li><a href="#jak-to-funguje">Jak to funguje</a></li>
         <li><a href="#cenik">Ceník</a></li>
         <li><a href="#reference">Reference</a></li>
+        <li><a href="#blog">Blog</a></li>
       </ul>
       <div class="nav-cta">
         <a href="#objednat" class="btn btn-primary">Objednat hodinu</a>
@@ -984,6 +1040,7 @@
     <a href="#jak-to-funguje" onclick="toggleMenu()">Jak to funguje</a>
     <a href="#cenik" onclick="toggleMenu()">Ceník</a>
     <a href="#reference" onclick="toggleMenu()">Reference</a>
+    <a href="#blog" onclick="toggleMenu()">Blog</a>
     <a href="#objednat" class="btn btn-primary" onclick="toggleMenu()">Objednat hodinu</a>
   </div>
 </nav>
@@ -1371,6 +1428,56 @@
   </div>
 </section>
 
+<!-- ==================== BLOG ==================== -->
+<section id="blog" class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="badge">Blog</div>
+      <h2 class="section-title">Tipy a návody</h2>
+      <p class="section-sub">Praktické rady, jak se lépe učit matematiku a připravit se na zkoušky.</p>
+    </div>
+    <div class="blog-grid">
+
+      <article class="blog-card">
+        <div class="blog-card-emoji">📐</div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-card-tag">Přijímačky</span>
+            <span class="blog-card-date">15. dubna 2025</span>
+          </div>
+          <h3 class="blog-card-title">Jak se připravit na Cermat za 3 měsíce</h3>
+          <p class="blog-card-perex">Tři měsíce před přijímačkami jsou víc než dost — pokud víte, co trénovat. Ukážu vám, jak sestavit plán, který funguje i pro žáky, kteří matematiku nemilují.</p>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-emoji">🧮</div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-card-tag">Studijní tipy</span>
+            <span class="blog-card-date">2. března 2025</span>
+          </div>
+          <h3 class="blog-card-title">5 chyb, které dělají žáci při počítání zlomků</h3>
+          <p class="blog-card-perex">Zlomky trápí skoro každého žáka základní školy. Přitom stačí porozumět pár základním pravidlům a většina chyb zmizí. Podívejte se, kde se nejčastěji chybuje.</p>
+        </div>
+      </article>
+
+      <article class="blog-card">
+        <div class="blog-card-emoji">💡</div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-card-tag">Online výuka</span>
+            <span class="blog-card-date">18. února 2025</span>
+          </div>
+          <h3 class="blog-card-title">Online doučování — jak na to, aby to dávalo smysl</h3>
+          <p class="blog-card-perex">Online hodiny mají své výhody, ale také nástrahy. Jak si správně nastavit pracovní prostor, jaké pomůcky použít a jak z každé hodiny vytěžit maximum.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
 <!-- ==================== ORDER FORM ==================== -->
 <section id="objednat">
   <div class="container">
@@ -1542,7 +1649,7 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll(
-    '.subject-card, .step-card, .pricing-card, .review-card, .about-chip'
+    '.subject-card, .step-card, .pricing-card, .review-card, .about-chip, .blog-card'
   ).forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(20px)';
