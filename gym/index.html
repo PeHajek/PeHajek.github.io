@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Tréninkový plán — Push / Pull / Legs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E9EAEC;
+  --surface:#FFFFFF;
+  --surface-2:#F4F5F6;
+  --ink:#1B1E24;
+  --muted:#6A707B;
+  --line:#DDE0E4;
+  --line-strong:#C7CBD1;
+  --hi:#C2362B;        /* primární zapojení svalu */
+  --hi-bg:#F7E5E2;
+  --mid:#E0892C;       /* sekundární zapojení */
+  --mid-bg:#FAEFDD;
+  --rest:#C9CDD3;      /* neaktivní sval */
+  --push:#C2362B;
+  --pull:#2E7D55;
+  --legs:#B8791E;
+  --tt:#5B53B0;
+  --bike:#1E8C72;
+  --radius:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto;padding:0 18px}
+
+/* ---------- HERO ---------- */
+.hero{padding:48px 0 28px}
+.eyebrow{
+  font-family:'Oswald',sans-serif;font-weight:500;letter-spacing:.22em;
+  text-transform:uppercase;font-size:13px;color:var(--hi);margin-bottom:10px;
+}
+.hero h1{
+  font-family:'Oswald',sans-serif;font-weight:700;
+  font-size:clamp(38px,8vw,72px);line-height:.98;letter-spacing:-.01em;
+  text-transform:uppercase;
+}
+.hero h1 .slash{color:var(--line-strong);font-weight:400}
+.hero p.lead{margin-top:14px;max-width:560px;color:var(--muted);font-size:16px}
+
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.stat{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:12px 16px;min-width:96px;
+}
+.stat .k{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.stat .v{font-family:'Oswald',sans-serif;font-weight:600;font-size:24px;line-height:1.1;margin-top:2px}
+.stat .v small{font-size:13px;color:var(--muted);font-weight:400}
+
+/* ---------- WEEK STRIP ---------- */
+.week{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:8px 0 4px;
+}
+.daycard{
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;
+  padding:12px 6px;text-align:center;text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;gap:6px;min-height:96px;
+  transition:transform .15s ease,border-color .15s ease;
+}
+.daycard:hover{transform:translateY(-2px);border-color:var(--line-strong)}
+.daycard .dow{font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.daycard .dn{font-size:13px;font-weight:600;line-height:1.25}
+.daycard .pill{
+  margin-top:auto;font-size:11px;font-weight:600;padding:3px 0;border-radius:6px;
+  text-transform:uppercase;letter-spacing:.04em;
+}
+.p-push{background:#F7E5E2;color:#9A2A21}
+.p-pull{background:#E2F1E9;color:#1F6043}
+.p-legs{background:#F8EED9;color:#8A5A12}
+.p-tt{background:#E9E7F6;color:#403A86}
+.p-bike{background:#DDF2EC;color:#136754}
+.p-rest{background:var(--surface-2);color:var(--muted)}
+
+/* ---------- SECTION ---------- */
+.section{margin:46px 0}
+.section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.section-head .tag{
+  font-family:'Oswald',sans-serif;font-weight:600;font-size:13px;letter-spacing:.14em;
+  text-transform:uppercase;padding:4px 12px;border-radius:8px;color:#fff;
+}
+.tag.push{background:var(--push)} .tag.pull{background:var(--pull)} .tag.legs{background:var(--legs)}
+.section-head h2{font-family:'Oswald',sans-serif;font-weight:600;font-size:30px;letter-spacing:-.01em}
+.section-head .day{color:var(--muted);font-size:15px}
+.section-sub{color:var(--muted);font-size:14px;margin-bottom:18px}
+
+/* ---------- EXERCISE ---------- */
+.ex{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:10px;overflow:hidden;
+}
+.ex-head{
+  display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;
+  user-select:none;transition:background .15s ease;
+}
+.ex-head:hover{background:var(--surface-2)}
+.ex-num{
+  font-family:'Oswald',sans-serif;font-weight:600;font-size:15px;color:#fff;
+  width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ex-num.push{background:var(--push)} .ex-num.pull{background:var(--pull)} .ex-num.legs{background:var(--legs)}
+.ex-title{flex:1;min-width:0}
+.ex-title .name{font-weight:600;font-size:16px}
+.ex-title .meta{font-size:13px;color:var(--muted);margin-top:1px}
+.ex-sets{
+  font-family:'Oswald',sans-serif;font-weight:600;font-size:15px;white-space:nowrap;
+  padding:5px 11px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line);
+}
+.chev{color:var(--muted);transition:transform .25s ease;flex-shrink:0}
+.ex.open .chev{transform:rotate(180deg)}
+
+.ex-body{
+  max-height:0;overflow:hidden;transition:max-height .35s ease;
+  border-top:1px solid transparent;
+}
+.ex.open .ex-body{border-top-color:var(--line)}
+.ex-inner{padding:20px 18px 22px}
+
+.grid2{display:grid;grid-template-columns:1.15fr 1fr;gap:26px}
+@media(max-width:680px){.grid2{grid-template-columns:1fr;gap:24px}}
+
+.block-label{
+  font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px;
+}
+
+/* prescription cards */
+.rx{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.rx .card{flex:1;min-width:90px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.rx .card .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.rx .card .v{font-family:'Oswald',sans-serif;font-weight:600;font-size:21px;line-height:1.15;margin-top:3px}
+.rx .card .v small{font-size:12px;font-weight:400;color:var(--muted)}
+
+.weight-note{
+  background:var(--hi-bg);border:1px solid #EAC9C4;border-radius:10px;
+  padding:11px 13px;font-size:13.5px;color:#7A241C;margin-bottom:18px;
+}
+.weight-note b{font-weight:600}
+
+.howto{margin-bottom:4px}
+.howto ol{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:9px}
+.howto li{position:relative;padding-left:30px;font-size:14px;counter-increment:s}
+.howto li::before{
+  content:counter(s);position:absolute;left:0;top:1px;
+  width:20px;height:20px;border-radius:6px;background:var(--ink);color:#fff;
+  font-family:'Oswald',sans-serif;font-size:12px;font-weight:600;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* movement video button */
+.vidbtn{
+  display:inline-flex;align-items:center;gap:7px;margin-top:14px;
+  text-decoration:none;font-weight:600;font-size:13.5px;color:#fff;background:var(--hi);
+  padding:9px 16px;border-radius:10px;transition:background .15s ease;
+}
+.vidbtn:hover{background:#A52C22}
+.vidbtn svg{flex-shrink:0}
+.rest-card{background:var(--surface-2)!important}
+
+/* meal plan */
+.meals{width:100%;border-collapse:collapse;font-size:14px}
+.meals th{text-align:left;font-family:'Oswald',sans-serif;font-weight:600;font-size:12px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:8px 10px 8px 0;border-bottom:1px solid var(--line)}
+.meals td{padding:10px 10px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.meals tr:last-child td{border-bottom:none}
+.meals .mt{font-weight:600;white-space:nowrap;width:110px;color:var(--ink)}
+.meals .mp{white-space:nowrap;text-align:right;font-family:'Oswald',sans-serif;font-weight:500;color:var(--muted);width:70px}
+.macro-line{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.macro-line .m{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:13px}
+.macro-line .m b{font-family:'Oswald',sans-serif;font-weight:600}
+.day-pill{font-size:12px;font-weight:600;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.econ{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+.econ b{color:var(--ink);font-weight:600}
+
+/* muscle map */
+.bodies{display:flex;gap:6px;justify-content:center}
+.body-col{flex:1;text-align:center;max-width:160px}
+.body-col .cap{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+.body-svg{width:100%;height:auto}
+.mz{fill:var(--rest);stroke:#fff;stroke-width:1.2;transition:fill .4s ease}
+.mz.secondary{fill:var(--mid)}
+.mz.primary{fill:var(--hi)}
+.body-outline{fill:none;stroke:var(--line-strong);stroke-width:1.5}
+.body-skin{fill:#E4E0DA}
+
+.legend{display:flex;gap:16px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+.muscle-list{margin-top:16px;display:flex;flex-direction:column;gap:7px}
+.muscle-list .row{display:flex;align-items:center;gap:9px;font-size:13.5px}
+.muscle-list .dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.muscle-list .lvl{margin-left:auto;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+
+/* cardio + tips */
+.callout{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px 22px;margin-bottom:12px;
+}
+.callout.accent-tt{border-left:4px solid var(--tt)}
+.callout.accent-bike{border-left:4px solid var(--bike)}
+.callout h3{font-family:'Oswald',sans-serif;font-weight:600;font-size:20px;margin-bottom:4px}
+.callout .sub{color:var(--muted);font-size:13px;margin-bottom:12px}
+.callout ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.callout li{font-size:14px;padding-left:18px;position:relative}
+.callout li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--line-strong)}
+.callout li b{font-weight:600}
+
+.disclaimer{
+  font-size:12.5px;color:var(--muted);background:var(--surface-2);
+  border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:30px 0 60px;line-height:1.55;
+}
+footer{padding:0 0 50px;text-align:center;color:var(--muted);font-size:12px}
+
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important;scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Domácí gym · 3× full-body + 2× stolní tenis + chůze + kolo</div>
+    <h1>Tréninkový<br>plán <span class="slash">/</span> full body</h1>
+    <p class="lead">Verze 2.0 — každá partie dostane podnět 2–3× týdně, což je pro růst svalů po padesátce efektivnější než klasický split. Tři dny s odstupňovanou intenzitou (těžký / střední / lehčí), rozcvička a deload jsou součástí plánu. Specializace: prsa a biceps mají navýšený objem. Rozklikni cvik pro detaily: série, váhy, pauzy, techniku, video i mapu svalů.</p>
+    <div class="stats" id="stats"></div>
+  </header>
+
+  <nav class="week" id="week" aria-label="Týdenní rozpis"></nav>
+
+  <section class="section" id="rozcvicka" style="margin-top:34px">
+    <div class="section-head"><h2 style="font-size:24px">Rozcvička — před každým tréninkem</h2></div>
+    <p class="section-sub">5–8 minut navíc k tréninku (celkem tedy ~45–48 min). V padesáti je to nejlevnější pojistka proti zranění šlach a ramen — nedá se ošidit.</p>
+    <div class="callout">
+      <ul>
+        <li><b>2–3 min lehké kardio:</b> rychlá chůze, jumping jacks nebo pár schodů — jen rozproudit krev a zahřát tělo.</li>
+        <li><b>Mobilizace (2 min):</b> kroužení rameny vpřed/vzad (10×), kroužení pažemi, kroužení boky, 10 dřepů bez váhy do plného rozsahu.</li>
+        <li><b>Rozcvičovací série (2–3 min):</b> první cvik dne udělej nejdřív s prázdnou tyčí / lehkými činkami na 10–12 opakování, u těžkého dne přidej ještě jednu sérii s ~60 % pracovní váhy na 5 opakování. Teprve pak pracovní série.</li>
+      </ul>
+    </div>
+  </section>
+
+  <main id="plan"></main>
+
+    <section class="section" id="jidelnicek">
+    <div class="section-head"><h2 style="font-size:24px">Jídelníček na týden</h2></div>
+    <p class="section-sub">Cíl: ~2 600–2 800 kcal a 170–180 g bílkovin denně pro růst svalů (89 kg, aktivní režim). Struktura kopíruje tvůj týden — silové dny mají sacharidy kolem tréninku, tenisové dny lehčí večeři, neděle je odlehčená. U každého jídla je i ekonomická varianta se stejnými bílkovinami. Rozklikni den pro detail.</p>
+    <div class="ex">
+      <div class="ex-head" role="button" tabindex="0" aria-expanded="false">
+        <span class="ex-num" style="background:var(--ink)">1</span>
+        <span class="ex-title"><span class="name">Pondělí</span><span class="meta">Silový trénink A (těžký) — sacharidy kolem tréninku</span></span>
+        <span class="day-pill p-push">2750 kcal · 178 g bílkovin</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="ex-body"><div class="ex-inner">
+        <table class="meals">
+          <tr><th>Jídlo</th><th>Co si dát</th><th style="text-align:right">Bílkoviny</th></tr>
+          <tr><td class="mt">Snídaně</td><td>Ovesná kaše (80 g vloček) s mlékem a banánem + 200 g skyru nebo 30 g whey<div class="econ"><b>Levněji:</b> vločky s mlékem + 250 g tvarohu ve vaničce — tvaroh je nejlevnější kvalitní bílkovina</div></td><td class="mp">35 g</td></tr><tr><td class="mt">Svačina</td><td>2 krajíce žitného chleba, 80 g šunky (min. 90 % masa), plátek sýra, zelenina<div class="econ"><b>Levněji:</b> chléb s vaječnou pomazánkou (2 vejce) nebo tvarohovou pomazánkou s pažitkou</div></td><td class="mp">25 g</td></tr><tr><td class="mt">Oběd</td><td>200 g kuřecích prsou, 250 g vařené rýže, dušená zelenina, lžíce olivového oleje<div class="econ"><b>Levněji:</b> kuřecí stehna bez kůže místo prsou — cca poloviční cena, stejné bílkoviny</div></td><td class="mp">50 g</td></tr><tr><td class="mt">Před tréninkem</td><td>250 g polotučného tvarohu s ovocem a lžičkou medu (~90 min před)<div class="econ"><b>Levněji:</b> 400 g bílého jogurtu 3 % — v akci často levnější než tvaroh</div></td><td class="mp">30 g</td></tr><tr><td class="mt">Večeře (po tréninku)</td><td>150 g libového hovězího, 300 g brambor, zeleninový salát<div class="econ"><b>Levněji:</b> mleté vepřové nebo mix 150 g; jednou za čas kuřecí játra (železo + cena)</div></td><td class="mp">38 g</td></tr>
+        </table>
+        <div class="macro-line"><span class="m">Energie <b>~2750 kcal</b></span><span class="m">Bílkoviny <b>~178 g</b></span></div>
+      </div></div>
+    </div>
+    <div class="ex">
+      <div class="ex-head" role="button" tabindex="0" aria-expanded="false">
+        <span class="ex-num" style="background:var(--ink)">2</span>
+        <span class="ex-title"><span class="name">Úterý</span><span class="meta">Stolní tenis 75 min — lehčí večeře, sacharidy přes den</span></span>
+        <span class="day-pill p-tt">2650 kcal · 162 g bílkovin</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="ex-body"><div class="ex-inner">
+        <table class="meals">
+          <tr><th>Jídlo</th><th>Co si dát</th><th style="text-align:right">Bílkoviny</th></tr>
+          <tr><td class="mt">Snídaně</td><td>3 vejce natvrdo/omeleta, 2 krajíce žitného chleba, rajče, 150 g bílého jogurtu<div class="econ"><b>Levněji:</b> beze změny — vejce jsou nejlevnější plnohodnotná bílkovina na trhu</div></td><td class="mp">32 g</td></tr><tr><td class="mt">Svačina</td><td>Skyr 150 g + hrst ořechů (30 g) + jablko<div class="econ"><b>Levněji:</b> bílý jogurt 200 g + slunečnicová semínka místo ořechů (třetinová cena)</div></td><td class="mp">18 g</td></tr><tr><td class="mt">Oběd</td><td>200 g krůtích prsou, 250 g těstovin, rajčatová omáčka, parmazán<div class="econ"><b>Levněji:</b> kuřecí prsa či stehna místo krůtích, eidam místo parmazánu</div></td><td class="mp">52 g</td></tr><tr><td class="mt">Svačina</td><td>Banán + proteinový nápoj (30 g whey) — cca hodinu před tenisem<div class="econ"><b>Levněji:</b> banán + 200 g tvarohu — stejné bílkoviny bez doplňků</div></td><td class="mp">28 g</td></tr><tr><td class="mt">Večeře</td><td>Tvarohová pomazánka (200 g tvarohu) na 2 krajících chleba, zelenina<div class="econ"><b>Levněji:</b> beze změny — už je to jedna z nejlevnějších večeří</div></td><td class="mp">32 g</td></tr>
+        </table>
+        <div class="macro-line"><span class="m">Energie <b>~2650 kcal</b></span><span class="m">Bílkoviny <b>~162 g</b></span></div>
+      </div></div>
+    </div>
+    <div class="ex">
+      <div class="ex-head" role="button" tabindex="0" aria-expanded="false">
+        <span class="ex-num" style="background:var(--ink)">3</span>
+        <span class="ex-title"><span class="name">Středa</span><span class="meta">Silový trénink B (střední)</span></span>
+        <span class="day-pill p-pull">2700 kcal · 167 g bílkovin</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="ex-body"><div class="ex-inner">
+        <table class="meals">
+          <tr><th>Jídlo</th><th>Co si dát</th><th style="text-align:right">Bílkoviny</th></tr>
+          <tr><td class="mt">Snídaně</td><td>Ovesná kaše (80 g) s mlékem, borůvky, 30 g whey nebo 200 g skyru<div class="econ"><b>Levněji:</b> kaše + 250 g tvarohu; borůvky nahraď jablkem nebo mraženým ovocem</div></td><td class="mp">35 g</td></tr><tr><td class="mt">Svačina</td><td>Cottage sýr 150 g, celozrnné pečivo, paprika<div class="econ"><b>Levněji:</b> tvaroh s pažitkou a solí místo cottage — poloviční cena, víc bílkovin</div></td><td class="mp">22 g</td></tr><tr><td class="mt">Oběd</td><td>200 g vepřové panenky, 300 g brambor, zelí nebo salát<div class="econ"><b>Levněji:</b> vepřová kýta nebo plec místo panenky — třetinová cena</div></td><td class="mp">48 g</td></tr><tr><td class="mt">Před tréninkem</td><td>Skyr 200 g s ovocem (~90 min před)<div class="econ"><b>Levněji:</b> bílý jogurt s hrstí ovesných vloček</div></td><td class="mp">20 g</td></tr><tr><td class="mt">Večeře (po tréninku)</td><td>Omeleta ze 4 vajec se šunkou a sýrem, chléb, zelenina<div class="econ"><b>Levněji:</b> omeleta jen se sýrem a cibulí, případně s vařeným bramborem</div></td><td class="mp">42 g</td></tr>
+        </table>
+        <div class="macro-line"><span class="m">Energie <b>~2700 kcal</b></span><span class="m">Bílkoviny <b>~167 g</b></span></div>
+      </div></div>
+    </div>
+    <div class="ex">
+      <div class="ex-head" role="button" tabindex="0" aria-expanded="false">
+        <span class="ex-num" style="background:var(--ink)">4</span>
+        <span class="ex-title"><span class="name">Čtvrtek</span><span class="meta">Stolní tenis 75 min — rybí den</span></span>
+        <span class="day-pill p-tt">2600 kcal · 154 g bílkovin</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="ex-body"><div class="ex-inner">
+        <table class="meals">
+          <tr><th>Jídlo</th><th>Co si dát</th><th style="text-align:right">Bílkoviny</th></tr>
+          <tr><td class="mt">Snídaně</td><td>2 krajíce chleba s vaječnou pomazánkou (3 vejce), zelenina<div class="econ"><b>Levněji:</b> beze změny — patří k nejlevnějším snídaním</div></td><td class="mp">28 g</td></tr><tr><td class="mt">Svačina</td><td>Skyr 150 g + hruška + 30 g mandlí<div class="econ"><b>Levněji:</b> jogurt + jablko + slunečnicová/dýňová semínka</div></td><td class="mp">18 g</td></tr><tr><td class="mt">Oběd</td><td>200 g lososa nebo pstruha, 250 g rýže, brokolice<div class="econ"><b>Levněji:</b> mražené filé (treska aljašská) — zlomek ceny losose; brokolici klidně mraženou</div></td><td class="mp">48 g</td></tr><tr><td class="mt">Svačina</td><td>Banán + tvaroh 150 g (hodinu před tenisem)<div class="econ"><b>Levněji:</b> beze změny</div></td><td class="mp">20 g</td></tr><tr><td class="mt">Večeře</td><td>Tuňákový salát (konzerva ve vlastní šťávě, vejce, fazole, zelenina), pečivo<div class="econ"><b>Levněji:</b> sardinky v konzervě místo tuňáka — levnější a víc omega-3 a vápníku</div></td><td class="mp">40 g</td></tr>
+        </table>
+        <div class="macro-line"><span class="m">Energie <b>~2600 kcal</b></span><span class="m">Bílkoviny <b>~154 g</b></span></div>
+      </div></div>
+    </div>
+    <div class="ex">
+      <div class="ex-head" role="button" tabindex="0" aria-expanded="false">
+        <span class="ex-num" style="background:var(--ink)">5</span>
+        <span class="ex-title"><span class="name">Pátek</span><span class="meta">Silový trénink C (lehčí) — prioritní partie</span></span>
+        <span class="day-pill p-legs">2750 kcal · 173 g bílkovin</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="ex-body"><div class="ex-inner">
+        <table class="meals">
+          <tr><th>Jídlo</th><th>Co si dát</th><th style="text-align:right">Bílkoviny</th></tr>
+          <tr><td class="mt">Snídaně</td><td>Ovesná kaše (80 g) s mlékem a jablkem + 30 g whey nebo 200 g skyru<div class="econ"><b>Levněji:</b> kaše + 250 g tvarohu</div></td><td class="mp">35 g</td></tr><tr><td class="mt">Svačina</td><td>2 plátky šunky, sýr, žitný chléb, okurka<div class="econ"><b>Levněji:</b> vaječná pomazánka nebo tvarohová se strouhaným sýrem</div></td><td class="mp">24 g</td></tr><tr><td class="mt">Oběd</td><td>200 g kuřecích stehen bez kůže, 250 g kuskusu nebo rýže, zelenina<div class="econ"><b>Levněji:</b> pečené stehenní čtvrtky (nejlevnější maso vůbec), brambory místo kuskusu</div></td><td class="mp">46 g</td></tr><tr><td class="mt">Před tréninkem</td><td>Tvaroh 250 g s medem a ovocem (~90 min před)<div class="econ"><b>Levněji:</b> bílý jogurt 400 g nebo kefír</div></td><td class="mp">30 g</td></tr><tr><td class="mt">Večeře (po tréninku)</td><td>150 g mletého hovězího (čili/ragú), 250 g těstovin nebo brambor, salát<div class="econ"><b>Levněji:</b> mleté vepřové nebo mix; polovinu masa nahraď vařenou čočkou — chuť zůstane, cena klesne</div></td><td class="mp">38 g</td></tr>
+        </table>
+        <div class="macro-line"><span class="m">Energie <b>~2750 kcal</b></span><span class="m">Bílkoviny <b>~173 g</b></span></div>
+      </div></div>
+    </div>
+    <div class="ex">
+      <div class="ex-head" role="button" tabindex="0" aria-expanded="false">
+        <span class="ex-num" style="background:var(--ink)">6</span>
+        <span class="ex-title"><span class="name">Sobota</span><span class="meta">Kolo 60–120 min — sacharidy podle délky jízdy</span></span>
+        <span class="day-pill p-bike">2700 kcal · 160 g bílkovin</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="ex-body"><div class="ex-inner">
+        <table class="meals">
+          <tr><th>Jídlo</th><th>Co si dát</th><th style="text-align:right">Bílkoviny</th></tr>
+          <tr><td class="mt">Snídaně (před jízdou)</td><td>Palačinky z ovesných vloček (60 g), 2 vajec a tvarohu, ovoce, med<div class="econ"><b>Levněji:</b> beze změny — vločky, vejce a tvaroh jsou levný základ</div></td><td class="mp">35 g</td></tr><tr><td class="mt">Na kole</td><td>Banán nebo müsli tyčinka (při jízdě nad 90 min), voda<div class="econ"><b>Levněji:</b> rohlík s marmeládou nebo domácí vločková tyčinka</div></td><td class="mp">2 g</td></tr><tr><td class="mt">Oběd (po jízdě)</td><td>200 g kuřecího, 300 g brambor nebo rýže, zeleninový salát<div class="econ"><b>Levněji:</b> kuřecí stehna nebo čtvrtky, mražená zelenina</div></td><td class="mp">50 g</td></tr><tr><td class="mt">Svačina</td><td>Skyr 200 g + ořechy 30 g<div class="econ"><b>Levněji:</b> jogurt + semínka</div></td><td class="mp">22 g</td></tr><tr><td class="mt">Večeře</td><td>Pečená ryba nebo sýrová omeleta (3 vejce + 50 g sýra), chléb, zelenina<div class="econ"><b>Levněji:</b> omeleta je sama o sobě ekonomická varianta; ryba = mražené filé</div></td><td class="mp">35 g</td></tr>
+        </table>
+        <div class="macro-line"><span class="m">Energie <b>~2700 kcal</b></span><span class="m">Bílkoviny <b>~160 g</b></span></div>
+      </div></div>
+    </div>
+    <div class="ex">
+      <div class="ex-head" role="button" tabindex="0" aria-expanded="false">
+        <span class="ex-num" style="background:var(--ink)">7</span>
+        <span class="ex-title"><span class="name">Neděle</span><span class="meta">Volno — regenerace, lehčí den, méně sacharidů</span></span>
+        <span class="day-pill p-rest">2400 kcal · 153 g bílkovin</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="ex-body"><div class="ex-inner">
+        <table class="meals">
+          <tr><th>Jídlo</th><th>Co si dát</th><th style="text-align:right">Bílkoviny</th></tr>
+          <tr><td class="mt">Snídaně</td><td>Vejce 3 ks na měkko, žitný chléb, avokádo nebo máslo, rajčata<div class="econ"><b>Levněji:</b> vynech avokádo, dej máslo — chuťově i cenově v pohodě</div></td><td class="mp">25 g</td></tr><tr><td class="mt">Svačina</td><td>Skyr 200 g s ovocem<div class="econ"><b>Levněji:</b> bílý jogurt nebo tvaroh se sezónním ovocem</div></td><td class="mp">20 g</td></tr><tr><td class="mt">Oběd</td><td>Klasický nedělní oběd: 180 g masa (kuřecí/hovězí/vepřové), příloha dle chuti, zelenina<div class="econ"><b>Levněji:</b> celé pečené kuře — nejlevnější nedělní oběd na kilo masa, zbytek do pondělní svačiny</div></td><td class="mp">45 g</td></tr><tr><td class="mt">Svačina</td><td>Tvaroh 150 g nebo hrst ořechů + ovoce<div class="econ"><b>Levněji:</b> jablko + tvaroh</div></td><td class="mp">18 g</td></tr><tr><td class="mt">Večeře</td><td>Luštěninový salát (čočka/cizrna) se sýrem feta a vejcem, zelenina<div class="econ"><b>Levněji:</b> balkánský sýr nebo eidam místo fety; čočka a cizrna jsou už nejlevnější bílkoviny</div></td><td class="mp">30 g</td></tr>
+        </table>
+        <div class="macro-line"><span class="m">Energie <b>~2400 kcal</b></span><span class="m">Bílkoviny <b>~153 g</b></span></div>
+      </div></div>
+    </div>
+
+    <div class="callout" style="margin-top:14px">
+      <h3 style="font-size:17px">Pravidla, která drží jídelníček pohromadě</h3>
+      <ul style="margin-top:10px">
+        <li><b>Bílkoviny v každém jídle:</b> 25–50 g na porci — tělo po padesátce využije bílkoviny lépe v rovnoměrných dávkách než v jedné velké večeři.</li>
+        <li><b>Kontrola podle váhy, ne podle pocitu:</b> važ se 1× týdně ráno (např. v neděli). Přibíráš-li přes 0,5 kg/týden, uber přílohy; ztrácíš-li váhu a nechceš, přidej. Cíl je pomalý růst nebo rekompozice.</li>
+        <li><b>Ekonomické varianty nejsou horší:</b> tvaroh, vejce, kuřecí stehna, mražené filé a luštěniny mají stejnou (někdy vyšší) nutriční hodnotu jako dražší alternativy. Rozdíl je jen v ceně a pohodlí.</li>
+        <li><b>Whey protein je zkratka, ne nutnost:</b> 30 g whey = 200 g skyru = 250 g tvarohu. Používej, co ti chutná a co stihneš.</li>
+        <li><b>Pití:</b> 2,5–3 l denně, v tréninkové a tenisové dny víc. Pivo se počítá do kalorií, ne do pitného režimu.</li>
+        <li><b>Kreatin 3–5 g denně</b> — kdykoli během dne, klidně do ranního skyru. Konzistence je důležitější než načasování.</li>
+        <li><b>Neřeš dokonalost:</b> jídelníček je vzor, ne dogma. Trefit bílkoviny a přibližné kalorie 6 dní ze 7 bohatě stačí.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2 style="font-size:24px">Kardio a regenerace</h2></div>
+    <div class="callout accent-tt">
+      <h3>Úterý &amp; čtvrtek — stolní tenis</h3>
+      <div class="sub">2× 75 min na vysoké úrovni</div>
+      <ul>
+        <li>Plní roli intervalové kondice (HIIT) — extra kardio nepotřebuješ.</li>
+        <li>Zařazen mezi silové dny, aby ramena a nohy měly prostor na regeneraci.</li>
+        <li>Před hrou krátká mobilizace ramen a zápěstí; po hře protažení.</li>
+      </ul>
+    </div>
+    <div class="callout accent-bike">
+      <h3>Sobota — kolo</h3>
+      <div class="sub">60–120 min, aerobní pásmo</div>
+      <ul>
+        <li>Aktivní regenerace po náročném týdnu — jeď pro radost, ne na čas.</li>
+        <li>Intenzita „pohodová konverzace" — žádné Strava segmenty ani cílové tempo.</li>
+        <li>Zlepšuje aerobní kapacitu a regeneraci, pocítíš to i u stolního tenisu.</li>
+      </ul>
+    </div>
+      <div class="callout" style="border-left:4px solid #6A707B">
+      <h3>Každý den — chůze</h3>
+      <div class="sub">7–10 tisíc kroků</div>
+      <ul>
+        <li>Základ denního pohybu (NEAT) — počítá se i v tréninkové dny.</li>
+        <li>Nezatěžuje regeneraci, naopak ji podporuje (prokrvení, mobilita).</li>
+        <li>Klidně rozděl: ráno, po obědě, večer se psem — sčítá se.</li>
+      </ul>
+    </div>
+</section>
+
+  <section class="section">
+    <div class="section-head"><h2 style="font-size:24px">Principy, které drží plán pohromadě</h2></div>
+    <div class="callout">
+      <ul>
+        <li><b>Progresivní přetěžování:</b> každé 1–2 týdny přidej opakování nebo závaží. Bez progrese tělo přestane reagovat.</li>
+        <li><b>Rezerva (RIR 1–2):</b> poslední 2 opakování série dřou, ale nikdy nejdeš do úplného selhání — zvlášť u dřepu, mrtvého tahu a benche. Po padesátce je poměr riziko/zisk selhání výrazně horší.</li>
+        <li><b>Vlny intenzity:</b> pondělí těžký den, středa střední, pátek lehčí. Nesnaž se jet všechny tři dny naplno — full-body 3× týdně funguje jen s řízenou intenzitou.</li>
+        <li><b>Deload každý 7. týden:</b> stejné cviky, ~50 % vah, stejná opakování. Šlachy, klouby a nervová soustava potřebují odlehčený týden. Zapiš si ho do kalendáře, jinak na něj zapomeneš.</li>
+        <li><b>Mezi opakováními:</b> žádná pauza — opakování jdou plynule za sebou (cca 2 s spouštění pod kontrolou, 1 s zvedání). Pauza patří až mezi série.</li>
+        <li><b>Mezi sériemi:</b> konkrétní čas je u každého cviku. Zhruba 60–90 s u izolací a 2–3 min u základních cviků, aby se obnovila síla.</li>
+        <li><b>Mezi cviky:</b> 2–3 min, případně dokud nejsi připravený. Klidně využij čas na přípravu vah.</li>
+        <li><b>Chůze denně:</b> 7–10 tisíc kroků jako základ — počítá se i v tréninkové dny. Nezatěžuje regeneraci, podporuje ji.</li>
+        <li><b>Bílkoviny:</b> pro věk 50+ cíl horní hranici — cca 2 g na kg tělesné hmotnosti denně (pro tebe ~170–180 g). Starší sval potřebuje silnější podnět (anabolická rezistence).</li>
+        <li><b>Kreatin monohydrát 3–5 g denně:</b> nejlépe podložený doplněk pro růst svalů i ve vyšším věku. Stojí za zvážení — před nasazením klidně konzultuj s lékařem.</li>
+        <li><b>Spánek:</b> sval roste v klidu, ne při tréninku. 7–8 h je součást plánu, ne luxus.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>Poznámka k závaží:</b> uvedené hmotnosti jsou orientační výchozí body odhadnuté pro muže 50 let / 178 cm / 89 kg se základní tréninkovou zkušeností. Skutečná správná váha je ta, u které posledních pár opakování dře, ale technika zůstává čistá — proto vždy začni spíš níž a přidávej. Tohle není lékařská rada. Před zvýšením vah se vždy zahřej; při bolesti (zvlášť v zádech, ramenou a kolenou) cvik přeruš a případně konzultuj lékaře nebo fyzioterapeuta.
+  </div>
+
+  <footer>Sestaveno na míru · Full-body 3× + stolní tenis + chůze + kolo · verze 2.0</footer>
+</div>
+
+<script>
+/* ---------------- DATA ---------------- */
+const profile = [
+  {k:'Věk', v:'50', u:'let'},
+  {k:'Výška', v:'178', u:'cm'},
+  {k:'Váha', v:'89', u:'kg'},
+  {k:'BMI', v:'28,1', u:''},
+  {k:'Bílkoviny / den', v:'170–180', u:'g'}
+];
+
+const week = [
+  {dow:'Po', dn:'Full-body A', pill:'Těžký', cls:'p-push', href:'#A'},
+  {dow:'Út', dn:'Stolní tenis', pill:'75 min', cls:'p-tt', href:'#kardio'},
+  {dow:'St', dn:'Full-body B', pill:'Střední', cls:'p-pull', href:'#B'},
+  {dow:'Čt', dn:'Stolní tenis', pill:'75 min', cls:'p-tt', href:'#kardio'},
+  {dow:'Pá', dn:'Full-body C', pill:'Lehčí', cls:'p-legs', href:'#C'},
+  {dow:'So', dn:'Kolo', pill:'60–120', cls:'p-bike', href:'#kardio'},
+  {dow:'Ne', dn:'Volno', pill:'regen.', cls:'p-rest', href:'#'}
+];
+
+const muscleNames = {
+  chest:'Prsa (m. pectoralis)', 'delt-front':'Přední rameno', 'delt-side':'Boční rameno',
+  'delt-rear':'Zadní rameno', triceps:'Triceps', biceps:'Biceps', forearm:'Předloktí',
+  abs:'Břicho', obliques:'Šikmé břišní', quads:'Stehna (quadriceps)', hamstrings:'Zadní stehna',
+  glutes:'Hýždě', lats:'Záda (latissimus)', traps:'Trapéz', lowerback:'Bedra (vzpřimovače)',
+  calves:'Lýtka'
+};
+
+const plan = {
+  A:{tag:'Těžký den', cls:'push', day:'Pondělí', sub:'Základní cviky, těžší váhy, delší pauzy. Celé tělo v šesti cvicích + biceps navíc (priorita).', ex:[
+    {n:'Dřep s tyčí', equip:'Vzpěračská tyč na ramenou, stojan', sets:'3', reps:'8–10',
+      w:'Start ~50 kg', wrange:'rozsah 40–70 kg (vč. tyče)', rest:'2–3 min', vid:'barbell back squat proper form',
+      how:['Tyč polož na horní trapézy, chodidla na šíři ramen.','Dřepej s rovnými zády, kolena ve směru špiček.','Klesej do úrovně, kdy stehna jsou cca vodorovně.','Tlač přes paty nahoru, břicho zpevněné. Nikdy do úplného selhání — nech 1–2 opakování v rezervě.'],
+      m:{quads:'primary',glutes:'primary',lowerback:'secondary',abs:'secondary'}},
+    {n:'Benchpress s tyčí', equip:'Vzpěračská tyč + stojan, lavice naplocho', sets:'3', reps:'8–10',
+      w:'Start ~45 kg', wrange:'rozsah 40–60 kg (vč. 20kg tyče)', rest:'2–3 min', vid:'barbell bench press proper form technique',
+      how:['Lavice naplocho, lopatky stáhni k sobě a dolů, chodidla pevně na zemi.','Úchop o něco širší než ramena, tyč spouštěj k dolní části prsou.','Tlač nahoru bez prohnutí v bedrech, lokty nezamykej naplno.','Dolů 2 s pod kontrolou, nahoru svižně. RIR 1–2 — bez selhání.'],
+      m:{chest:'primary','delt-front':'secondary',triceps:'secondary'}},
+    {n:'Veslování s tyčí (bent-over row)', equip:'Vzpěračská tyč, předklon ~45°', sets:'3', reps:'8–10',
+      w:'Start ~40 kg', wrange:'rozsah 35–55 kg (vč. tyče)', rest:'2 min', vid:'barbell bent over row proper form',
+      how:['Předklon ~45°, záda rovná, mírně pokrčená kolena.','Tyč táhni k pásu/podbřišku, lopatky stáhni k sobě.','Pohyb z loktů a zad, ne z beder.','Pozor na rovná záda po celou dobu — nehrbit se.'],
+      m:{lats:'primary',traps:'secondary',biceps:'secondary',lowerback:'secondary'}},
+    {n:'Lateral raises (upažování)', equip:'Jednoručky, stoj', sets:'2', reps:'12–15',
+      w:'Start ~7 kg/ruka', wrange:'rozsah 5–10 kg/ruka', rest:'60–90 s', vid:'dumbbell lateral raise proper form',
+      how:['Stoj, lehce pokrčené lokty, činky u boků.','Upažuj do strany do úrovně ramen — vede loket, ne dlaň.','Vrchol drž zlomek vteřiny, pak pomalu dolů.','Nešvihej tělem; radši lehčí váha a čistá technika.'],
+      m:{'delt-side':'primary','delt-front':'secondary'}},
+    {n:'Incline dumbbell curl (biceps na nakloněné lavici)', equip:'Jednoručky, lavice 45–60°', sets:'2', reps:'10–12',
+      w:'Start ~10 kg/ruka', wrange:'rozsah 8–14 kg/ruka', rest:'60–90 s', vid:'incline dumbbell curl proper form',
+      how:['Nastav opěradlo na 45–60°, sedni/lehni zády, ruce nech volně viset dolů.','Lokty zůstávají za tělem (nesnaž se je táhnout dopředu) — tím se protáhne dlouhá hlava bicepsu.','Zvedej obě činky do kontrakce, dolů pomalu do plného protažení.','Doplňuje středeční preacher — jiný úhel, nižší váha než vestoje (nejde podvádět).'],
+      m:{biceps:'primary',forearm:'secondary'}},
+    {n:'Plank', equip:'Podložka — vlastní váha', sets:'2', reps:'45 s',
+      w:'Vlastní váha', wrange:'progrese = delší výdrž', rest:'45 s', vid:'plank exercise proper form',
+      how:['Předloktí pod rameny, tělo v jedné přímce.','Břicho a hýždě zpevněné, bedra neprohýbat.','Drž 45 s; když technika povolí, ukonči sérii dřív.','Dýchej plynule, nezadržuj dech.'],
+      m:{abs:'primary',obliques:'secondary',lowerback:'secondary'}}
+  ]},
+  B:{tag:'Střední den', cls:'pull', day:'Středa', sub:'Střední váhy a opakování 10–12. Jiné úhly než v pondělí.', ex:[
+    {n:'Rumunský mrtvý tah', equip:'Vzpěračská tyč', sets:'3', reps:'10–12',
+      w:'Start ~50 kg', wrange:'rozsah 45–70 kg (vč. tyče)', rest:'2–3 min', vid:'romanian deadlift proper form',
+      how:['Tyč drž před stehny, kolena mírně pokrčená (neměnná).','Posouvej boky dozadu, tyč klouže podél nohou.','Cítíš tah v zadních stehnech, záda rovná.','Návrat tlakem boků vpřed, stisk hýždí nahoře.'],
+      m:{hamstrings:'primary',glutes:'primary',lowerback:'secondary'}},
+    {n:'Šikmý benchpress s jednoručkami', equip:'Jednoručky, lavice 30–45°', sets:'3', reps:'10–12',
+      w:'Start ~14 kg/ruka', wrange:'rozsah 12–18 kg/ruka', rest:'2 min', vid:'incline dumbbell press proper form',
+      how:['Nastav opěradlo na 30–45°, sedni a opři se zády.','Jednoručky tlač z úrovně horních prsou nahoru, mírně k sobě.','Cítíš zatížení horní části prsou — tu klasický bench podtrénovává.','Dolů pomalu, plný rozsah.'],
+      m:{chest:'primary','delt-front':'secondary',triceps:'secondary'}},
+    {n:'Lat pulldown (přítahy na kabel)', equip:'Horní kabel lavice, sed pod hrazdu', sets:'3', reps:'10–12',
+      w:'Start ~45 kg', wrange:'rozsah 40–60 kg (dle systému)', rest:'2 min', vid:'lat pulldown proper form technique',
+      how:['Sedni pod hrazdu, stehna zafixuj pod válečky.','Široký nadhmat, hrudník vzhůru, lopatky stáhni dolů.','Táhni hrazdu k horní části prsou, lokty míří dolů.','Nahoru pomalu, plné protažení zad.'],
+      m:{lats:'primary',biceps:'secondary','delt-rear':'secondary'}},
+    {n:'Scottův preacher curl', equip:'Tyč / jednoručky + Scottova opěrka lavice', sets:'3', reps:'10–12',
+      w:'Start ~25 kg (tyč) / 12 kg (DB)', wrange:'rozsah 20–35 kg tyč · 10–16 kg/ruka', rest:'60–90 s', vid:'preacher curl proper form',
+      how:['Opři paže o Scottovu opěrku, ramena uvolněná.','Zvedej do plné kontrakce bicepsu.','Dolů pomalu, ale nelámej loket úplně do nuly.','Opěrka brání podvádění — proto je curl účinnější.'],
+      m:{biceps:'primary',forearm:'secondary'}},
+    {n:'Tricep pushdown (horní kabel)', equip:'Lat pulldown kabel, úzký úchop', sets:'2', reps:'12–15',
+      w:'Start ~20 kg', wrange:'rozsah 15–30 kg (dle systému)', rest:'60–90 s', vid:'triceps pushdown proper form',
+      how:['Postav se pod horní kabel lavice, úzký nadhmat.','Lokty drž u těla, tlač předloktí dolů až do napnutí.','Nahoru pomalu, lokty zůstávají na místě.','Pohyb jde jen z loktů, ne z ramen.'],
+      m:{triceps:'primary'}},
+    {n:'Plank', equip:'Podložka — vlastní váha', sets:'2', reps:'45 s',
+      w:'Vlastní váha', wrange:'progrese = delší výdrž', rest:'45 s', vid:'plank exercise proper form',
+      how:['Předloktí pod rameny, tělo v jedné přímce.','Břicho a hýždě zpevněné, bedra neprohýbat.','Drž 45 s; když technika povolí, ukonči sérii dřív.','Dýchej plynule, nezadržuj dech.'],
+      m:{abs:'primary',obliques:'secondary',lowerback:'secondary'}}
+  ]},
+  C:{tag:'Lehčí den', cls:'legs', day:'Pátek', sub:'Vyšší opakování, kratší pauzy, jednoručky. Prioritní partie (prsa, biceps) tu mají bonus navíc.', ex:[
+    {n:'Výpady s jednoručkami', equip:'Jednoručky v rukou', sets:'3', reps:'10/nohu',
+      w:'Start ~10 kg/ruka', wrange:'rozsah 8–16 kg/ruka', rest:'90 s', vid:'dumbbell walking lunge proper form',
+      how:['Činky podél těla, krok vpřed do výpadu.','Zadní koleno klesá k zemi, přední ve směru špičky.','Tlač přes patu přední nohy zpět nahoru.','Unilaterální zátěž koriguje rozdíly mezi nohama.'],
+      m:{quads:'primary',glutes:'primary',hamstrings:'secondary'}},
+    {n:'Shoulder press s jednoručkami', equip:'Jednoručky, lavice svisle (sed)', sets:'2', reps:'10–12',
+      w:'Start ~12 kg/ruka', wrange:'rozsah 10–16 kg/ruka', rest:'90 s – 2 min', vid:'seated dumbbell shoulder press form',
+      how:['Sedni s opěrkou svisle, záda opřená, břicho zpevněné.','Jednoručky drž ve výši uší, tlač nad hlavu.','Nahoře se činky téměř dotknou, lokty nezamykej.','Bedra netlač do hyperextenze.'],
+      m:{'delt-front':'primary','delt-side':'secondary',triceps:'secondary'}},
+    {n:'Rozpažky s jednoručkami (flyes)', equip:'Jednoručky, lavice naplocho', sets:'2', reps:'12–15',
+      w:'Start ~8 kg/ruka', wrange:'rozsah 6–12 kg/ruka', rest:'60–90 s', vid:'dumbbell chest fly flat bench proper form',
+      how:['Lehni na lavici, činky nad hrudníkem, dlaně k sobě.','Lokty mírně pokrčené (úhel se nemění) — rozpažuj do stran.','Dolů jen do příjemného protažení prsou, žádné přepínání ramen.','Zpět obloukem, jako bys objímal strom. Lehká váha, pomalé tempo.'],
+      m:{chest:'primary','delt-front':'secondary'}},
+    {n:'Leg curl (kladkový váleček lavice)', equip:'Kladkový váleček, leh na břiše', sets:'2', reps:'12–15',
+      w:'Start ~střední odpor', wrange:'kalibruj podle posledních 2 opakování', rest:'60–90 s', vid:'lying leg curl proper form',
+      how:['Lehni na břicho, kotníky pod váleček.','Ohýbej kolena, pata jde k hýždím.','Dolů pomalu, hamstringy stále v napětí.','Důležité pro výbuchy a sprint u stolního tenisu.'],
+      m:{hamstrings:'primary',calves:'secondary'}},
+    {n:'Reverse flyes (předklonné upažování)', equip:'Jednoručky, předklon', sets:'2', reps:'15',
+      w:'Start ~6 kg/ruka', wrange:'rozsah 4–8 kg/ruka', rest:'60 s', vid:'bent over reverse fly dumbbell form',
+      how:['Předklon s rovnými zády, činky pod hrudníkem.','Rozpaž do strany, lopatky stahuj k sobě.','Cílíš zadní rameno — u hráče stolního tenisu klíčová prevence.','Lehká váha, žádné švihy.'],
+      m:{'delt-rear':'primary',traps:'secondary'}},
+    {n:'Superset: Hammer curl + rotační crunch', equip:'Jednoručky + podložka', sets:'3', reps:'12 + 15',
+      w:'Start ~12 kg/ruka', wrange:'rozsah 10–16 kg/ruka (curl)', rest:'60 s po dvojici', vid:'hammer curl proper form',
+      how:['Hammer curl: palce nahoru, lokty u těla, 12 opakování.','Ihned bez pauzy na podložku: rotační crunch, loket ke koleni, 15 opakování.','Teprve pak pauza 60 s — dvojice šetří čas.','Tři taková kola a máš hotovo.'],
+      m:{biceps:'primary',forearm:'secondary',abs:'primary',obliques:'primary'}}
+  ]}
+};
+
+/* ---------------- BODY SVG ---------------- */
+function frontBody(map){
+  const c = id => (map[id]==='primary'?' primary':map[id]==='secondary'?' secondary':'');
+  return `<svg class="body-svg" viewBox="0 0 160 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pohled zepředu">
+    <ellipse class="body-skin" cx="80" cy="30" rx="17" ry="21"/>
+    <path class="body-outline" d="M63 50 q17 12 34 0 M52 70 q28 -18 56 0 l6 30 -8 60 -6 70 -10 80 h-20 l-10 -80 -6 -70 -8 -60 z"/>
+    <!-- delts front -->
+    <ellipse class="mz${c('delt-side')}" cx="49" cy="84" rx="15" ry="14"/>
+    <ellipse class="mz${c('delt-side')}" cx="111" cy="84" rx="15" ry="14"/>
+    <ellipse class="mz${c('delt-front')}" cx="58" cy="80" rx="11" ry="10"/>
+    <ellipse class="mz${c('delt-front')}" cx="102" cy="80" rx="11" ry="10"/>
+    <!-- chest -->
+    <path class="mz${c('chest')}" d="M62 80 q18 -6 17 14 0 14 -17 12 -10 -2 -10 -16 0 -8 10 -10z"/>
+    <path class="mz${c('chest')}" d="M98 80 q-18 -6 -17 14 0 14 17 12 10 -2 10 -16 0 -8 -10 -10z"/>
+    <!-- biceps -->
+    <ellipse class="mz${c('biceps')}" cx="40" cy="120" rx="8" ry="19"/>
+    <ellipse class="mz${c('biceps')}" cx="120" cy="120" rx="8" ry="19"/>
+    <!-- forearm -->
+    <ellipse class="mz${c('forearm')}" cx="33" cy="158" rx="7" ry="20"/>
+    <ellipse class="mz${c('forearm')}" cx="127" cy="158" rx="7" ry="20"/>
+    <!-- abs -->
+    <rect class="mz${c('abs')}" x="66" y="108" width="28" height="46" rx="8"/>
+    <!-- obliques -->
+    <path class="mz${c('obliques')}" d="M63 112 q-7 18 2 40 -8 -4 -9 -22 -1 -12 7 -18z"/>
+    <path class="mz${c('obliques')}" d="M97 112 q7 18 -2 40 8 -4 9 -22 1 -12 -7 -18z"/>
+    <!-- quads -->
+    <path class="mz${c('quads')}" d="M64 168 q14 4 14 22 l-3 48 q-1 8 -9 8 -7 0 -9 -10 l-4 -46 q-1 -18 11 -22z"/>
+    <path class="mz${c('quads')}" d="M96 168 q-14 4 -14 22 l3 48 q1 8 9 8 7 0 9 -10 l4 -46 q1 -18 -11 -22z"/>
+  </svg>`;
+}
+function backBody(map){
+  const c = id => (map[id]==='primary'?' primary':map[id]==='secondary'?' secondary':'');
+  return `<svg class="body-svg" viewBox="0 0 160 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pohled zezadu">
+    <ellipse class="body-skin" cx="80" cy="30" rx="17" ry="21"/>
+    <path class="body-outline" d="M52 70 q28 -18 56 0 l6 30 -8 60 -6 70 -10 80 h-20 l-10 -80 -6 -70 -8 -60 z"/>
+    <!-- traps -->
+    <path class="mz${c('traps')}" d="M62 64 q18 -10 36 0 l-4 26 q-14 8 -28 0z"/>
+    <!-- rear delts -->
+    <ellipse class="mz${c('delt-rear')}" cx="50" cy="84" rx="14" ry="13"/>
+    <ellipse class="mz${c('delt-rear')}" cx="110" cy="84" rx="14" ry="13"/>
+    <!-- triceps -->
+    <ellipse class="mz${c('triceps')}" cx="40" cy="120" rx="8" ry="19"/>
+    <ellipse class="mz${c('triceps')}" cx="120" cy="120" rx="8" ry="19"/>
+    <!-- forearm back -->
+    <ellipse class="mz${c('forearm')}" cx="33" cy="158" rx="7" ry="20"/>
+    <ellipse class="mz${c('forearm')}" cx="127" cy="158" rx="7" ry="20"/>
+    <!-- lats -->
+    <path class="mz${c('lats')}" d="M60 92 q-8 30 6 56 8 -2 12 -12 l0 -40 q-10 -6 -18 -4z"/>
+    <path class="mz${c('lats')}" d="M100 92 q8 30 -6 56 -8 -2 -12 -12 l0 -40 q10 -6 18 -4z"/>
+    <!-- lower back -->
+    <rect class="mz${c('lowerback')}" x="70" y="120" width="20" height="34" rx="7"/>
+    <!-- glutes -->
+    <path class="mz${c('glutes')}" d="M64 158 q15 -4 15 16 0 14 -14 14 -10 0 -12 -14 -2 -12 11 -16z"/>
+    <path class="mz${c('glutes')}" d="M96 158 q-15 -4 -15 16 0 14 14 14 10 0 12 -14 2 -12 -11 -16z"/>
+    <!-- hamstrings -->
+    <path class="mz${c('hamstrings')}" d="M65 192 q13 2 13 20 l-3 36 q-1 8 -9 8 -7 0 -8 -10 l-3 -34 q-1 -16 10 -20z"/>
+    <path class="mz${c('hamstrings')}" d="M95 192 q-13 2 -13 20 l3 36 q1 8 9 8 7 0 8 -10 l3 -34 q1 -16 -10 -20z"/>
+    <!-- calves -->
+    <ellipse class="mz${c('calves')}" cx="67" cy="292" rx="9" ry="22"/>
+    <ellipse class="mz${c('calves')}" cx="93" cy="292" rx="9" ry="22"/>
+  </svg>`;
+}
+
+/* ---------------- RENDER ---------------- */
+const statsEl = document.getElementById('stats');
+profile.forEach(p=>{
+  statsEl.insertAdjacentHTML('beforeend',
+    `<div class="stat"><div class="k">${p.k}</div><div class="v">${p.v} <small>${p.u}</small></div></div>`);
+});
+
+const weekEl = document.getElementById('week');
+week.forEach(d=>{
+  weekEl.insertAdjacentHTML('beforeend',
+    `<a class="daycard" href="${d.href}"><span class="dow">${d.dow}</span><span class="dn">${d.dn}</span><span class="pill ${d.cls}">${d.pill}</span></a>`);
+});
+
+const planEl = document.getElementById('plan');
+['A','B','C'].forEach(key=>{
+  const s = plan[key];
+  let exHTML = '';
+  s.ex.forEach((e,i)=>{
+    const muscleRows = Object.entries(e.m).map(([id,lvl])=>{
+      const color = lvl==='primary'?'var(--hi)':'var(--mid)';
+      const lvlTxt = lvl==='primary'?'hlavní':'pomocný';
+      return `<div class="row"><span class="dot" style="background:${color}"></span>${muscleNames[id]}<span class="lvl">${lvlTxt}</span></div>`;
+    }).join('');
+    const howHTML = e.how.map(h=>`<li>${h}</li>`).join('');
+    exHTML += `
+    <div class="ex">
+      <div class="ex-head" role="button" tabindex="0" aria-expanded="false">
+        <span class="ex-num ${s.cls}">${i+1}</span>
+        <span class="ex-title"><span class="name">${e.n}</span><span class="meta">${e.equip}</span></span>
+        <span class="ex-sets">${e.sets}×${e.reps}</span>
+        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="ex-body">
+        <div class="ex-inner">
+          <div class="rx">
+            <div class="card"><div class="k">Série</div><div class="v">${e.sets}</div></div>
+            <div class="card"><div class="k">Opakování</div><div class="v">${e.reps}</div></div>
+            <div class="card"><div class="k">Doporučené závaží</div><div class="v">${e.w}<br><small>${e.wrange}</small></div></div>
+            <div class="card rest-card"><div class="k">Pauza mezi sériemi</div><div class="v">${e.rest}</div></div>
+          </div>
+          <div class="weight-note"><b>Jak kalibrovat:</b> uvedená váha je výchozí odhad pro tvé parametry (50 let, 178 cm, 89 kg). Cíl: poslední 2 opakování série dřou, ale technika drží. Pokud je to moc lehké, přidej; když nedáš spodní hranici opakování čistě, uber.</div>
+          <div class="grid2">
+            <div>
+              <div class="block-label">Jak cvik provést</div>
+              <div class="howto"><ol>${howHTML}</ol></div>
+              <a class="vidbtn" href="https://www.youtube.com/results?search_query=${encodeURIComponent(e.vid)}" target="_blank" rel="noopener">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                Podívej se na ukázkové video
+              </a>
+            </div>
+            <div>
+              <div class="block-label">Zapojené svaly</div>
+              <div class="bodies">
+                <div class="body-col">${frontBody(e.m)}<div class="cap">zepředu</div></div>
+                <div class="body-col">${backBody(e.m)}<div class="cap">zezadu</div></div>
+              </div>
+              <div class="legend">
+                <span><i style="background:var(--hi)"></i>Hlavní sval</span>
+                <span><i style="background:var(--mid)"></i>Pomocný sval</span>
+              </div>
+              <div class="muscle-list">${muscleRows}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  planEl.insertAdjacentHTML('beforeend', `
+    <section class="section" id="${key}">
+      <div class="section-head">
+        <span class="tag ${s.cls}">${s.tag}</span>
+        <h2>Full-body ${key}</h2>
+        <span class="day">${s.day} · ~35–40 min</span>
+      </div>
+      <p class="section-sub">${s.sub}</p>
+      ${exHTML}
+    </section>`);
+});
+
+/* accordion */
+function toggle(head){
+  const ex = head.closest('.ex');
+  const body = ex.querySelector('.ex-body');
+  const open = ex.classList.toggle('open');
+  head.setAttribute('aria-expanded', open);
+  body.style.maxHeight = open ? body.scrollHeight + 'px' : '0';
+}
+document.querySelectorAll('.ex-head').forEach(h=>{
+  h.addEventListener('click',()=>toggle(h));
+  h.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(h);} });
+});
+window.addEventListener('resize',()=>{
+  document.querySelectorAll('.ex.open .ex-body').forEach(b=>{ b.style.maxHeight = b.scrollHeight + 'px'; });
+});
+</script>
+</body>
+</html>
