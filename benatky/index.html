@@ -550,7 +550,7 @@
   <div class="hero-sub" id="heroSub">
     <div class="hero-stat"><span class="num">19–22.</span><span class="lbl">Červenec 2026</span></div>
     <div class="hero-stat"><span class="num">4</span><span class="lbl">Dny · 3 noci</span></div>
-    <div class="hero-stat"><span class="num">26</span><span class="lbl">Zastávek na trase</span></div>
+    <div class="hero-stat"><span class="num">27</span><span class="lbl">Zastávek na trase</span></div>
     <div class="hero-stat"><span class="num">Festa</span><span class="lbl">del Redentore, den 1.</span></div>
   </div>
 </header>
@@ -612,7 +612,15 @@ const STOPS = [
     body:'Tronchetto je umělý ostrov na severozápadním okraji Benátek, postavený v 60. letech výhradně jako parkovací plocha pro téměř 4000 aut a autobusů. Odtud vede jediná silniční spojka (Ponte della Libertà) na pevninu, veškerá další doprava do centra je už jen lodí, chůzí nebo automatickým People Moverem na Piazzale Roma.',
     facts:[['Kapacita','~4000 míst'],['Otevřeno','24 hodin denně'],['Spojení dál','Vaporetto linka 2, People Mover']] },
 
-  { day:1, seq:2, time:'13:40', name:'Giudecca Palanca', cat:'Doprava · zastávka',
+  { day:1, seq:2, time:'13:10', name:'Tronchetto — molo vaporetta', cat:'Doprava · zastávka',
+    lat:45.4403604, lng:12.306262,
+    icon:'anchor',
+    transit:'→ Pěšky z parkoviště, ~5 min',
+    snippet:'Skutečná zastávka ACTV na Tronchettu, odkud jede vaporetto linka 2 přímo na Giudeccu.',
+    body:'Molo je pár minut chůze od parkoviště. Pozor, linka 2 jezdí oběma směry — potřebuješ směr San Zaccaria/Lido (přes Giudeccu), ne směr Piazzale Roma/Rialto.',
+    facts:[['Linka','ACTV 2'],['Provoz','24 hodin denně']] },
+
+  { day:1, seq:3, time:'13:40', name:'Giudecca Palanca', cat:'Doprava · zastávka',
     lat:45.426899, lng:12.325401,
     img:LOCAL_IMG.palanca,
     credit:'Giudecca Palanca',
@@ -622,7 +630,7 @@ const STOPS = [
     body:'Giudecca byla až do 20. století plná loděnic, pivovarů a textilek — including Molino Stucky, mlýn, ve kterém dnes bydlíte. Dnes je to tišší, víc rezidenční protějšek hlavního ostrova, jen pár minut lodí od San Marka, ale bez turistických davů.',
     facts:[['Vzdálenost k hotelu','500 m, přes 2 mosty'],['Linky','ACTV 2, 4.1']] },
 
-  { day:1, seq:3, time:'14:00', name:'Hilton Molino Stucky', cat:'Ubytování',
+  { day:1, seq:4, time:'14:00', name:'Hilton Molino Stucky', cat:'Ubytování',
     lat:45.4282189, lng:12.3202931,
     img:LOCAL_IMG.hiltonbuilding,
     credit:'Hilton Molino Stucky, Giudecca',
@@ -632,7 +640,7 @@ const STOPS = [
     body:'Molino Stucky postavil v roce 1895 švýcarský podnikatel Giovanni Stucky jako největší mlýn a těstárnu v Evropě — cihlová novogotická pevnost, která tehdy budila kontroverzi svou industriální velikostí uprostřed historických Benátek. Po desetiletích chátrání byl v letech 2003–2007 přestavěn na hotel; Skyline Rooftop Bar na střeše nabízí jeden z nejlepších výhledů na město vůbec.',
     facts:[['Postaveno','1895'],['Architektura','Novogotická, cihlová'],['Highlight','Rooftop bazén a Skyline Bar']] },
 
-  { day:1, seq:4, time:'18:15', name:'Chiesa del Santissimo Redentore', cat:'Kostel · mše 18:30',
+  { day:1, seq:5, time:'18:15', name:'Chiesa del Santissimo Redentore', cat:'Kostel · mše 18:30',
     lat:45.4252894, lng:12.3324601,
     img:LOCAL_IMG.redentore2,
     credit:'Chiesa del Redentore, Giudecca',
@@ -642,7 +650,7 @@ const STOPS = [
     body:'Kostel navrhl Andrea Palladio jako votivní dar města za ukončení morové epidemie 1575–76, která zabila skoro třetinu obyvatel Benátek. Od té doby se každý třetí víkend v červenci koná Festa del Redentore: přes Giudecký kanál se postaví dočasný pontonový most, v sobotu večer ohňostroj, v neděli slavnostní votivní mše — přesně ten den, kdy tu budete.',
     facts:[['Architekt','Andrea Palladio'],['Postaveno','1592'],['19.7.2026','Den hlavní slavnosti Redentore']] },
 
-  { day:1, seq:5, time:'19:30', name:'Bacaromi', cat:'Večeře',
+  { day:1, seq:6, time:'19:30', name:'Bacaromi', cat:'Večeře',
     lat:45.4282143, lng:12.3199681,
     img:LOCAL_IMG.bacaromi,
     credit:'Bacaromi, hotelová restaurace',
