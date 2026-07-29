@@ -597,7 +597,7 @@ const DAYS = [
   { id:1, color:'#B85C38', title:'Příjezd, Giudecca, mše', date:'Neděle 19.7. — Festa del Redentore' },
   { id:2, color:'#2F6E68', title:'San Marco, butiky, Rialto, Salute', date:'Pondělí 20.7.' },
   { id:3, color:'#A9852E', title:'Pláž Lido, pizza, Accademia', date:'Úterý 21.7.' },
-  { id:4, color:'#5B4B77', title:'Klidné dopoledne, odjezd', date:'Středa 22.7.' },
+  { id:4, color:'#5B4B77', title:'Odjezd, Bibione, cesta domů', date:'Středa 22.7.' },
 ];
 
 const STOPS = [
@@ -841,33 +841,51 @@ const STOPS = [
     facts:[] },
 
   // ---------------- DAY 4 ----------------
-  { day:4, seq:1, time:'9:00', name:'Hilton — klidné dopoledne', cat:'Odbavení',
+  { day:4, seq:1, time:'11:00', name:'Hilton Molino Stucky — odjezd', cat:'Odjezd · checkout',
     lat:45.4282189, lng:12.3202931,
     img:LOCAL_IMG.hiltonbuilding,
     credit:'Hilton Molino Stucky, Giudecca',
     icon:'hotel',
     transit:'—',
-    snippet:'Klidná snídaně, checkout, případně poslední chvíle u rooftop bazénu.',
-    body:'Accademii už máte za sebou z Dne 3, takže tohle dopoledne je čistě na odpočinek — snídaně bez spěchu, dobalení, a pokud zbyde čas, ještě jeden pohled z rooftopu na Benátky, než se vydáte k autu.',
-    facts:[['Odjezd z hotelu','cca 11:35']] },
+    snippet:'Checkout, konec pobytu na Giudecce.',
+    body:'Poslední dopoledne v hotelu bez spěchu — checkout, dobalení, a pokud zbyde čas, ještě jeden pohled z rooftopu, než se vyrazí k autu.',
+    facts:[['Checkout','dopoledne']] },
 
-  { day:4, seq:2, time:'11:45', name:'Palanca', cat:'Doprava · zastávka',
+  { day:4, seq:2, time:'11:15', name:'Giudecca Palanca', cat:'Doprava · zastávka',
     lat:45.426899, lng:12.325401,
+    img:LOCAL_IMG.palanca,
+    credit:'Giudecca Palanca',
     icon:'anchor',
-    transit:'→ Pěšky, ~10 min',
-    snippet:'Odsud poslední úsek zpátky na Tronchetto.',
-    body:'',
+    transit:'→ Pěšky z hotelu, ~10 min',
+    snippet:'Odsud vaporetto zpátky na Tronchetto, k autu.',
+    body:'Stejná zastávka jako při příjezdu — odsud jede linka 2 zpátky na Tronchetto.',
     facts:[] },
 
-  { day:4, seq:3, time:'12:10', name:'Venezia Tronchetto Parking', cat:'Odjezd',
+  { day:4, seq:3, time:'11:40', name:'Venezia Tronchetto Parking', cat:'Odjezd',
     lat:45.4432561, lng:12.3072076,
     img:LOCAL_IMG.tronchetto,
     credit:'Venezia Tronchetto Parking',
     icon:'anchor',
-    transit:'→ Vaporetto linka 2, ~20–25 min',
-    snippet:'Rezerva ~45 minut do odjezdu ve 13:00 — pohodová.',
-    body:'Cesta zpět k autu stejnou trasou jako při příjezdu — přes Zattere, San Basilio a Sacca Fisola.',
-    facts:[['Odjezd','13:00']] },
+    transit:'→ Vaporetto linka 2, směr „Tronchetto/Piazzale Roma“, ~20–25 min',
+    snippet:'Vyzvednutí auta, začátek jízdy domů.',
+    body:'Zastávky cestou: Zattere → San Basilio → Sacca Fisola → Tronchetto. Platba kontaktní kartou přímo na validátoru při nástupu (tap-in) — pro 4 osoby stačí 4 přiložení karty do 60 sekund.',
+    facts:[['Zastávky cestou','Zattere → San Basilio → Sacca Fisola → Tronchetto'],['Platba','Kontaktní karta, tap-in, 4× do 60 s pro 4 osoby']] },
+
+  { day:4, seq:4, time:'12:45', name:'Spiaggia Bibione — Piazzale Zenith', cat:'Zastávka na pláži cestou',
+    lat:45.6335404, lng:13.0627341,
+    icon:'beach',
+    transit:'→ Autem z Tronchetta, ~80 km / ~1 h (dálnice A4, sjezd Latisana/Portogruaro)',
+    snippet:'Rušná centrální pláž Bibione, hodně služeb, zlatý písek.',
+    body:'Ideální na protažení nohou a oběd cestou domů.<br><br><strong>Parkování (v pořadí priority):</strong><br>1. <a href="https://www.google.com/maps/search/?api=1&query=Parking+Piazzale+Zenith+Bibione&query_place_id=ChIJC0YNnuuSe0cRzKpuML48lZg" target="_blank" rel="noopener">Piazzale Zenith</a> — placené, ~1,80 €/hod<br>2. <a href="https://www.google.com/maps/search/?api=1&query=Piazza+del+Mercato+Bibione&query_place_id=ChIJPfG0bgaTe0cRrnGiRnmgA9Q" target="_blank" rel="noopener">Piazza del Mercato</a> — zdarma, mimo úterý<br>3. <a href="https://www.google.com/maps/search/?api=1&query=Parcheggio+Via+Maja+45+Bibione&query_place_id=ChIJfdv87gKTe0cRcqq25T165rc" target="_blank" rel="noopener">Via Maja</a> — zdarma, záloha',
+    facts:[['Vzdálenost od Tronchetta','~80 km, ~1 h'],['Pláž','Centrální, zlatý písek']] },
+
+  { day:4, seq:5, time:'14:30', name:'Pokračování domů', cat:'Doprava · cesta domů',
+    lat:46.5039, lng:13.5793,
+    icon:'landmark',
+    transit:'→ Pokračování v autě',
+    snippet:'Bibione → Latisana → Udine → hranice Tarvisio → Villach → Klagenfurt → Graz → Vídeň → Hluk.',
+    body:'Trasa pokračuje po dálnici A4 přes Latisanu a Udine k hraničnímu přechodu Tarvisio, dál přes Villach, Klagenfurt, Graz a Vídeň až domů do Hluku.',
+    facts:[['Zbývající vzdálenost','~680 km'],['Čistý čas jízdy','~7 h']] },
 ];
 
 /* Attach "next leg" info to each stop: how to continue to the following point that day */
@@ -902,7 +920,7 @@ const DAY_HIGHLIGHT = {
   1: 'Festa del Redentore',
   2: 'San Marco a umění',
   3: 'Pláž Lido a Accademia',
-  4: 'Klidné dopoledne',
+  4: 'Odjezd a cesta domů',
 };
 
 function renderHeroStats(dayId){
