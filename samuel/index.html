@@ -122,7 +122,7 @@ button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
         </div>
         <div class="field">
           <label for="initial">Počáteční vklad v září 2024</label>
-          <div class="money" style="width:100%;margin-top:.35rem"><input type="text" inputmode="numeric" id="initial" value="0"><span>Kč</span></div>
+          <div class="money" style="width:100%;margin-top:.35rem"><input type="text" inputmode="numeric" id="initial" value="1 500"><span>Kč</span></div>
           <div class="note">Jednorázová částka vložená 09/2024, od té doby se zhodnocuje. Pravidelné měsíční vklady začínají v září 2026.</div>
         </div>
         <div class="field">
@@ -142,7 +142,7 @@ button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
         </div>
         <div class="field">
           <label for="infl">Inflace <output id="inflOut"></output></label>
-          <input type="range" id="infl" min="0" max="6" step="0.1" value="2.5">
+          <input type="range" id="infl" min="0" max="6" step="0.1" value="2.3">
           <label class="check" for="showReal" style="justify-content:flex-start;font-weight:400"><input type="checkbox" id="showReal">Zobrazit graf v dnešních penězích</label>
         </div>
         <div class="actions">
@@ -162,8 +162,8 @@ button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 (function(){
   const BIRTH = 2007;              // v roce 2072 bude 65 let
   const START_Y = 2026, START_M = 8; // září
-  const DEFAULTS = {endYear:2072, initial:0, rate:7, ter:0.2, infl:2.5, showReal:false,
-    monthly:{2026:1000,2031:3000,2036:5000,2041:6000,2046:7000,2051:7000,2056:7000,2061:6000,2066:5000,2071:5000,2076:5000}};
+  const DEFAULTS = {endYear:2072, initial:1500, rate:7, ter:0.2, infl:2.3, showReal:false,
+    monthly:{2026:450,2031:1000,2036:1500,2041:2000,2046:2500,2051:3000,2056:3500,2061:4000,2066:4000,2071:0,2076:0}};
   const KEY = 'samuel-plan-v1';
   let state = JSON.parse(JSON.stringify(DEFAULTS));
   try{ const s = localStorage.getItem(KEY); if(s){ const p = JSON.parse(s); state = Object.assign(state,p); state.monthly = Object.assign({},DEFAULTS.monthly,p.monthly||{}); } }catch(e){}
