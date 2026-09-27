@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Samuelův investiční plán 2026–2072</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --paper:#F5F7F8; --panel:#FFFFFF; --ink:#1B2733; --muted:#5E6B78; --line:#DCE2E7;
+  --dep:#6A87A8; --gain:#2F6B55; --gain-soft:rgba(47,107,85,.16); --dep-soft:rgba(106,135,168,.22);
+  --focus:#2F6B55;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121A21; --panel:#18222B; --ink:#E6ECF0; --muted:#98A6B3; --line:#2A3743;
+    --dep:#8FA9C7; --gain:#6DC1A0; --gain-soft:rgba(109,193,160,.16); --dep-soft:rgba(143,169,199,.2); --focus:#6DC1A0;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121A21; --panel:#18222B; --ink:#E6ECF0; --muted:#98A6B3; --line:#2A3743;
+  --dep:#8FA9C7; --gain:#6DC1A0; --gain-soft:rgba(109,193,160,.16); --dep-soft:rgba(143,169,199,.2); --focus:#6DC1A0;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+main{max-width:1080px;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+h1,h2{font-weight:600;margin:0}
+.hero{margin-bottom:2rem}
+.hero .who{color:var(--muted);font-size:.95rem;margin:0 0 .75rem}
+.hero .sentence{font-family:"Instrument Serif",Georgia,"Times New Roman",serif;font-size:clamp(2rem,5.2vw,3.6rem);line-height:1.08;font-weight:400;max-width:22ch;margin:0}
+.hero .sentence .num{color:var(--gain);white-space:nowrap}
+.facts{display:flex;flex-wrap:wrap;gap:.4rem 2rem;margin-top:1.25rem;color:var(--muted);font-size:.95rem}
+.facts b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.chartbox{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1rem 1rem .5rem;margin-bottom:2.5rem}
+.chartwrap{position:relative;height:340px}
+.legend{display:flex;flex-wrap:wrap;gap:.3rem 1.25rem;font-size:.85rem;color:var(--muted);padding:.25rem .25rem .75rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:.4rem;vertical-align:-1px}
+.grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:2rem;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:1fr}}
+section h2{font-size:1.15rem;margin-bottom:.35rem}
+section .hint{color:var(--muted);font-size:.9rem;margin:0 0 1rem;max-width:60ch}
+.cycles{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.cycle{position:relative;padding:.9rem 0 .9rem 1.25rem}
+.cycle::before{content:"";position:absolute;left:-7px;top:1.25rem;width:12px;height:12px;border-radius:50%;background:var(--panel);border:2px solid var(--gain)}
+.cycle .head{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:baseline}
+.cycle .yrs{font-weight:600;font-variant-numeric:tabular-nums}
+.cycle .age{color:var(--muted);font-size:.88rem;margin-left:.5rem;font-weight:400}
+.cycle .end{color:var(--muted);font-size:.88rem;font-variant-numeric:tabular-nums}
+.cycle .end b{color:var(--gain);font-weight:600}
+.ctrl{display:flex;gap:.9rem;align-items:center;margin-top:.5rem}
+.ctrl input[type=range]{flex:1;min-width:0}
+.money{display:flex;align-items:center;border:1px solid var(--line);border-radius:8px;background:var(--panel);padding:0 .55rem;width:9.5rem;flex:none}
+.money input{border:0;background:transparent;color:var(--ink);font:inherit;font-variant-numeric:tabular-nums;width:100%;padding:.4rem 0;text-align:right}
+.money span{color:var(--muted);font-size:.85rem;margin-left:.35rem}
+.money:focus-within{outline:2px solid var(--focus);outline-offset:1px}
+.money input:focus{outline:none}
+.sub{color:var(--muted);font-size:.85rem;margin-top:.3rem;font-variant-numeric:tabular-nums}
+input[type=range]{accent-color:var(--gain);height:1.6rem}
+input[type=range]:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:4px}
+.params{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.25rem}
+.field{margin-bottom:1.15rem}
+.field:last-child{margin-bottom:0}
+.field label{display:flex;justify-content:space-between;gap:1rem;font-weight:500;font-size:.95rem}
+.field label output{font-variant-numeric:tabular-nums;color:var(--gain);font-weight:600}
+.field input[type=range]{width:100%}
+.field .note{color:var(--muted);font-size:.83rem;margin-top:.1rem}
+.presets{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
+.presets button,.actions button{font:inherit;font-size:.85rem;border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:.3rem .75rem;cursor:pointer}
+.presets button:hover,.actions button:hover{border-color:var(--gain)}
+.presets button[aria-pressed=true]{background:var(--gain);border-color:var(--gain);color:var(--panel)}
+button:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.check{display:flex;gap:.5rem;align-items:center;font-size:.95rem;margin-top:.25rem}
+.check input{accent-color:var(--gain);width:1.05rem;height:1.05rem}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.fine{color:var(--muted);font-size:.83rem;margin-top:2.5rem;max-width:72ch}
+.fine p{margin:.4rem 0}
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <p class="who">Samuelův investiční plán do ETF a akcií</p>
+    <p class="sentence" id="headline">V roce 2072, v 65 letech, můžeš mít <span class="num">…</span></p>
+    <div class="facts">
+      <span>Vloženo celkem <b id="fDep">–</b></span>
+      <span>Vydělají ti výnosy <b id="fGain">–</b></span>
+      <span id="fRealWrap">V dnešních penězích <b id="fReal">–</b></span>
+    </div>
+  </header>
+
+  <div class="chartbox">
+    <div class="legend">
+      <span><i style="background:var(--dep)"></i>Tvoje vklady</span>
+      <span><i style="background:var(--gain)"></i>Hodnota investice</span>
+      <span><i style="background:var(--gain-soft);border:1px dashed var(--gain)"></i>Rozpětí horší / lepší trh (±2 %)</span>
+    </div>
+    <div class="chartwrap"><canvas id="chart" aria-label="Graf vývoje hodnoty investice v čase" role="img"></canvas></div>
+  </div>
+
+  <div class="grid">
+    <section aria-labelledby="h-cycles">
+      <h2 id="h-cycles">Kolik budeš měsíčně investovat</h2>
+      <p class="hint">Plán je rozdělený na pětileté úseky, vždy do konce kalendářního roku. V každém úseku nastav částku, kterou zvládneš posílat každý měsíc.</p>
+      <ol class="cycles" id="cycles"></ol>
+    </section>
+
+    <section aria-labelledby="h-params">
+      <h2 id="h-params">Předpoklady</h2>
+      <p class="hint">Index MSCI World vynesl od roku 2000 průměrně asi 7,5 % ročně v USD a 6,6 % v EUR (s reinvesticí dividend, před poplatky fondu).</p>
+      <div class="params">
+        <div class="field">
+          <label for="endYear">Poslední rok vkladů <output id="endYearOut"></output></label>
+          <input type="range" id="endYear" min="2030" max="2080" step="1" value="2072">
+          <div class="note" id="endYearNote"></div>
+        </div>
+        <div class="field">
+          <label for="initial">Počáteční vklad v září 2024</label>
+          <div class="money" style="width:100%;margin-top:.35rem"><input type="text" inputmode="numeric" id="initial" value="0"><span>Kč</span></div>
+          <div class="note">Jednorázová částka vložená 09/2024, od té doby se zhodnocuje. Pravidelné měsíční vklady začínají v září 2026.</div>
+        </div>
+        <div class="field">
+          <label for="rate">Průměrný roční výnos indexu <output id="rateOut"></output></label>
+          <input type="range" id="rate" min="0" max="15" step="0.1" value="7">
+          <div class="presets" id="presets">
+            <button type="button" data-v="5">Opatrně 5 %</button>
+            <button type="button" data-v="7">Světové ETF (VWCE) 7 %</button>
+            <button type="button" data-v="10">Odvážně: Nasdaq-100 10 %</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="ter">Roční poplatek fondu (TER) <output id="terOut"></output></label>
+          <input type="range" id="ter" min="0" max="1.5" step="0.05" value="0.2">
+          <div class="note" id="netNote"></div>
+          <div class="note">Výnos indexu je před poplatky ETF. Pokud zadáváš výnos konkrétního ETF z jeho přehledu (už po poplatcích), nastav TER na 0 %.</div>
+        </div>
+        <div class="field">
+          <label for="infl">Inflace <output id="inflOut"></output></label>
+          <input type="range" id="infl" min="0" max="6" step="0.1" value="2.5">
+          <label class="check" for="showReal" style="justify-content:flex-start;font-weight:400"><input type="checkbox" id="showReal">Zobrazit graf v dnešních penězích</label>
+        </div>
+        <div class="actions">
+          <button type="button" id="reset">Obnovit výchozí nastavení</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="fine">
+    <p>Výpočet: počáteční vklad v září 2024, pravidelné vklady vždy na začátku měsíce od září 2026, měsíční složené úročení z ročního výnosu sníženého o poplatek fondu. Skutečný trh neroste rovnoměrně — jsou roky s poklesem i o 30–50 %, proto graf ukazuje i horší a lepší scénář.</p>
+    <p>Daně v ČR: zisk z prodeje akcií a ETF držených déle než 3 roky je od daně osvobozen (časový test). Jde o modelový výpočet, ne investiční doporučení.</p>
+  </div>
+</main>
+
+<script>
+(function(){
+  const BIRTH = 2007;              // v roce 2072 bude 65 let
+  const START_Y = 2026, START_M = 8; // září
+  const DEFAULTS = {endYear:2072, initial:0, rate:7, ter:0.2, infl:2.5, showReal:false,
+    monthly:{2026:1000,2031:3000,2036:5000,2041:6000,2046:7000,2051:7000,2056:7000,2061:6000,2066:5000,2071:5000,2076:5000}};
+  const KEY = 'samuel-plan-v1';
+  let state = JSON.parse(JSON.stringify(DEFAULTS));
+  try{ const s = localStorage.getItem(KEY); if(s){ const p = JSON.parse(s); state = Object.assign(state,p); state.monthly = Object.assign({},DEFAULTS.monthly,p.monthly||{}); } }catch(e){}
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+
+  const nf = new Intl.NumberFormat('cs-CZ',{maximumFractionDigits:0});
+  const nf1 = new Intl.NumberFormat('cs-CZ',{maximumFractionDigits:1});
+  const kc = v => nf.format(Math.round(v)) + ' Kč';
+  function big(v){
+    if(v >= 1e6) return new Intl.NumberFormat('cs-CZ',{maximumFractionDigits:1,minimumFractionDigits:1}).format(v/1e6) + ' mil. Kč';
+    return kc(v);
+  }
+  const parseMoney = s => { const n = parseInt(String(s).replace(/[^\d]/g,''),10); return isNaN(n)?0:n; };
+  const ageLabel = y => (y - BIRTH);
+
+  function cycles(){
+    const list = []; const E = state.endYear;
+    list.push({s:START_Y, e:Math.min(2030,E), id:2026});
+    for(let s=2031; s<=E; s+=5) list.push({s, e:Math.min(s+4,E), id:s});
+    return list;
+  }
+  function monthlyFor(y){ const c = cycles().find(c=>y>=c.s && y<=c.e); return c ? (state.monthly[c.id]||0) : 0; }
+
+  const INIT_Y = 2024, INIT_M = 8; // počáteční vklad 09/2024
+  function simulate(annual){
+    const net = Math.max(annual - state.ter, -99)/100;
+    const r = Math.pow(1+net, 1/12) - 1;
+    const i = state.infl/100;
+    let bal = state.initial, dep = state.initial, months = 0;
+    const years=[], vals=[], deps=[], reals=[], realDeps=[];
+    const perCycleEnd = {};
+    for(let y=INIT_Y; y<=state.endYear; y++){
+      const m0 = (y===INIT_Y)?INIT_M:0;
+      const d = monthlyFor(y);
+      for(let m=m0; m<12; m++){
+        const active = y>START_Y || (y===START_Y && m>=START_M);
+        if(active){ bal += d; dep += d; months++; }
+        bal *= 1+r;
+      }
+      const defl = Math.pow(1+i, months/12);
+      years.push(y); vals.push(bal); deps.push(dep); reals.push(bal/defl); realDeps.push(dep/defl);
+      perCycleEnd[y] = {bal, dep};
+    }
+    return {years, vals, deps, reals, realDeps, perCycleEnd, final:bal, dep, real:bal/Math.pow(1+i,months/12)};
+  }
+
+  const $ = id => document.getElementById(id);
+  const cyclesEl = $('cycles');
+
+  function renderCycles(){
+    cyclesEl.innerHTML = '';
+    cycles().forEach(c=>{
+      const months = (c.e - c.s + 1)*12 - (c.s===START_Y ? START_M : 0);
+      const li = document.createElement('li'); li.className='cycle';
+      const v = state.monthly[c.id] ?? 0;
+      const period = c.s===START_Y ? `9/${c.s} – ${c.e}` : (c.s===c.e ? `${c.s}` : `${c.s} – ${c.e}`);
+      li.innerHTML = `
+        <div class="head">
+          <span class="yrs">${period}<span class="age">věk ${ageLabel(c.s)}–${ageLabel(c.e)} let</span></span>
+          <span class="end" data-end="${c.e}"></span>
+        </div>
+        <div class="ctrl">
+          <input type="range" min="0" max="30000" step="500" value="${Math.min(v,30000)}" aria-label="Měsíční vklad ${period}">
+          <div class="money"><input type="text" inputmode="numeric" value="${nf.format(v)}" aria-label="Měsíční vklad ${period} v Kč"><span>Kč/měs.</span></div>
+        </div>
+        <div class="sub" data-sub="${c.id}" data-months="${months}"></div>`;
+      const range = li.querySelector('input[type=range]');
+      const num = li.querySelector('.money input');
+      range.addEventListener('input', ()=>{ state.monthly[c.id] = +range.value; num.value = nf.format(+range.value); update(); });
+      num.addEventListener('input', ()=>{ const n = parseMoney(num.value); state.monthly[c.id] = n; range.value = Math.min(n,30000); update(false); });
+      num.addEventListener('blur', ()=>{ num.value = nf.format(state.monthly[c.id]||0); });
+      cyclesEl.appendChild(li);
+    });
+  }
+
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  let chart;
+  function makeChart(){
+    const ctx = $('chart');
+    chart = new Chart(ctx,{
+      type:'line',
+      data:{labels:[],datasets:[
+        {label:'Lepší trh', data:[], borderColor:'transparent', backgroundColor:'transparent', pointRadius:0, fill:false, order:4},
+        {label:'Horší trh', data:[], borderColor:'transparent', backgroundColor:css('--gain-soft'), pointRadius:0, fill:'-1', order:3},
+        {label:'Hodnota investice', data:[], borderColor:css('--gain'), backgroundColor:css('--gain-soft'), borderWidth:2.5, pointRadius:0, pointHoverRadius:4, fill:false, tension:.25, order:1},
+        {label:'Tvoje vklady', data:[], borderColor:css('--dep'), backgroundColor:css('--dep-soft'), borderWidth:2, pointRadius:0, pointHoverRadius:4, fill:'origin', tension:0, order:2}
+      ]},
+      options:{
+        responsive:true, maintainAspectRatio:false, animation:false,
+        interaction:{mode:'index',intersect:false},
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{
+            title:items=>`${items[0].label} (věk ${ageLabel(+items[0].label)} let)`,
+            label:it=>` ${it.dataset.label}: ${kc(it.parsed.y)}${state.showReal?' (dnešní ceny)':''}`}}},
+        scales:{
+          x:{grid:{display:false},ticks:{color:css('--muted'),maxRotation:0,autoSkip:true,maxTicksLimit:10}},
+          y:{grid:{color:css('--line')},border:{display:false},ticks:{color:css('--muted'),callback:v=> v>=1e6 ? nf1.format(v/1e6)+' mil.' : nf.format(v/1e3)+' tis.'}}
+        }
+      }
+    });
+  }
+  function recolor(){
+    const ds = chart.data.datasets;
+    ds[1].backgroundColor = css('--gain-soft'); ds[2].borderColor = css('--gain');
+    ds[3].borderColor = css('--dep'); ds[3].backgroundColor = css('--dep-soft');
+    chart.options.scales.x.ticks.color = css('--muted'); chart.options.scales.y.ticks.color = css('--muted'); chart.options.scales.y.grid.color = css('--line');
+    chart.update('none');
+  }
+
+  function update(){
+    const base = simulate(state.rate), lo = simulate(Math.max(0,state.rate-2)), hi = simulate(state.rate+2);
+    const real = state.showReal;
+    const pick = s => real ? s.reals : s.vals;
+    chart.data.labels = base.years;
+    chart.data.datasets[0].data = pick(hi);
+    chart.data.datasets[1].data = pick(lo);
+    chart.data.datasets[2].data = pick(base);
+    chart.data.datasets[3].data = real ? base.realDeps : base.deps;
+    chart.update('none');
+
+    const E = state.endYear;
+    $('headline').innerHTML = `V roce ${E}, v ${ageLabel(E)} letech, můžeš mít <span class="num">${big(base.final)}</span>`;
+    $('fDep').textContent = kc(base.dep);
+    $('fGain').textContent = kc(base.final - base.dep);
+    $('fReal').textContent = big(base.real);
+    $('endYearOut').textContent = E;
+    $('endYearNote').textContent = `Samuelovi bude ${ageLabel(E)} let.`;
+    $('rateOut').textContent = state.rate.toLocaleString('cs-CZ',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' %';
+    $('terOut').textContent = state.ter.toLocaleString('cs-CZ',{minimumFractionDigits:2}) + ' %';
+    $('netNote').textContent = `Čistý výnos po poplatku: ${(state.rate - state.ter).toLocaleString('cs-CZ',{maximumFractionDigits:2})} % ročně.`;
+    $('inflOut').textContent = state.infl.toLocaleString('cs-CZ',{minimumFractionDigits:1}) + ' %';
+    document.querySelectorAll('#presets button').forEach(b=>b.setAttribute('aria-pressed', String(+b.dataset.v===state.rate)));
+
+    document.querySelectorAll('.cycle .end').forEach(el=>{
+      const p = base.perCycleEnd[+el.dataset.end];
+      el.innerHTML = p ? `na konci ${el.dataset.end}: <b>${big(p.bal)}</b>` : '';
+    });
+    document.querySelectorAll('.sub').forEach(el=>{
+      const m = +el.dataset.months, v = state.monthly[+el.dataset.sub]||0;
+      el.textContent = `${m} měsíců × ${kc(v)} = za úsek vložíš ${kc(m*v)}`;
+    });
+    save();
+  }
+
+  function syncInputs(){
+    $('endYear').value = state.endYear; $('rate').value = state.rate; $('ter').value = state.ter; $('infl').value = state.infl;
+    $('initial').value = nf.format(state.initial); $('showReal').checked = state.showReal;
+  }
+
+  $('endYear').addEventListener('input', e=>{ state.endYear = +e.target.value; renderCycles(); update(); });
+  $('rate').addEventListener('input', e=>{ state.rate = Math.round(+e.target.value*10)/10; update(); });
+  $('ter').addEventListener('input', e=>{ state.ter = +e.target.value; update(); });
+  $('infl').addEventListener('input', e=>{ state.infl = +e.target.value; update(); });
+  $('showReal').addEventListener('change', e=>{ state.showReal = e.target.checked; update(); });
+  $('initial').addEventListener('input', e=>{ state.initial = parseMoney(e.target.value); update(); });
+  $('initial').addEventListener('blur', e=>{ e.target.value = nf.format(state.initial); });
+  $('presets').addEventListener('click', e=>{ const b = e.target.closest('button'); if(!b) return; state.rate = +b.dataset.v; $('rate').value = state.rate; update(); });
+  $('reset').addEventListener('click', ()=>{ state = JSON.parse(JSON.stringify(DEFAULTS)); syncInputs(); renderCycles(); update(); });
+
+  const mq = window.matchMedia('(prefers-color-scheme: dark)');
+  if(mq.addEventListener) mq.addEventListener('change', ()=>chart && recolor());
+  new MutationObserver(()=>chart && recolor()).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+
+  syncInputs(); renderCycles(); makeChart(); update();
+})();
+</script>
+</body>
+</html>
